@@ -11,4 +11,17 @@ See it live in action at <https://volny.github.io/creative-theme-jekyll/>
 
 - Start by adding your info in `_config.yml`
 - In `_layouts/front.html` reorder or remove section as you prefer.
+<details>
+  <summary><b>Tab Title 1</b></summary>
+  
+  * Content for the first tab.
+  * You can use Markdown within this section.
+</details>
 
+<details>
+  <summary><b>Tab Title 2</b></summary>
+  
+  ```javascript
+  // Code snippets also work well
+  console.log("Hello, world!");
+  ```
