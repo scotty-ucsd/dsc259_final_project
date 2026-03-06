@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ site.baseurl }}/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="{{ site.baseurl }}/">Home</a></li>
+                <li><a class="page-scroll" href="#introduction">Introduction</a></li>
+                <li><a class="page-scroll" href="#eda">EDA</a></li>
+                <li><a class="page-scroll" href="#missingness">Missingness</a></li>
+                <li><a class="page-scroll" href="#hypothesis">Hypothesis</a></li>
+                <li><a class="page-scroll" href="#prediction">Prediction</a></li>
+                <li><a class="page-scroll" href="#baseline">Baseline</a></li>
+                <li><a class="page-scroll" href="#final-model">Final Model</a></li>
+                <li><a class="page-scroll" href="#fairness">Fairness</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="text-center" style="padding-top: 150px; padding-bottom: 50px; background-color: #f8f9fa;">
+    <div class="container">
+        <h1 class="section-heading">{{ page.title }}</h1>
+        <hr class="primary">
+        <p class="text-muted">A Comprehensive Data Science Project Report</p>
+    </div>
+</header>
+
+<section id="report-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="report-body">
+                    {{ content }}
+                </div>
+                
+                <div style="margin-top: 80px; padding-bottom: 50px; text-center">
+                    <hr class="primary">
+                    <a class="btn btn-primary btn-xl" href="{{ site.baseurl }}/index.html">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include footer.html %}
+{% include scripts.html %}
+
+<script>
+    $(document).ready(function(){
+      $("a.page-scroll").on('click', function(event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          var hash = this.hash;
+          $('html, body').animate({
+            scrollTop: $(hash).offset().top - 70
+          }, 800);
+        }
+      });
+    });
+</script>
+
+</body>
+</html>
