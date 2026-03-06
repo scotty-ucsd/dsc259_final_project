@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ site.baseurl }}/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ site.baseurl }}/index.html#about">Access Data</a></li>
+                <li><a href="{{ site.baseurl }}/index.html#services">Project Roadmap</a></li>
+                <li><a href="{{ site.baseurl }}/index.html#portfolio">Deliverables</a></li>
+                <li><a href="{{ site.baseurl }}/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" style="padding-top: 150px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="{{ site.baseurl }}/img/team/{{ page.photo }}" class="img-responsive img-circle center-block" alt="{{ page.title }}" style="width: 250px; height: 250px; object-fit: cover; border: 5px solid #F05F40;">
+                <h2 style="margin-top: 20px;">{{ page.name }}</h2>
+                <p class="text-muted" style="font-size: 1.2em;">{{ page.role }}</p>
+                
+                <hr class="primary">
+                <a class="btn btn-primary btn-xl" href="{{ site.baseurl }}/index.html#contact" style="width: 100%;">Return to Team</a>
+            </div>
+
+            <div class="col-md-8">
+                <div class="text-left">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include footer.html %}
+{% include scripts.html %}
+</body>
+</html>

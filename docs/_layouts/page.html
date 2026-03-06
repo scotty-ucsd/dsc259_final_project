@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ site.baseurl }}/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="{{ site.baseurl }}/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="{{ site.baseurl }}/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="{{ site.baseurl }}/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="{{ site.baseurl }}/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    {{ page.step_number }} <br>
+                    <small style="color: #222; font-weight: 700;">{{ page.step_title }}</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    {{ content }}
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        {% if page.step_number == "Step 2" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/introduction/">Back to Step 1</a></li>
+                        {% elsif page.step_number == "Step 3" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/eda/">Back to Step 2</a></li>
+                        {% elsif page.step_number == "Step 4" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/missingness/">Back to Step 3</a></li>
+                        {% elsif page.step_number == "Step 5" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/hypothesis/">Back to Step 4</a></li>
+                        {% elsif page.step_number == "Step 6" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/prediction/">Back to Step 5</a></li>
+                        {% elsif page.step_number == "Step 7" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/baseline/">Back to Step 6</a></li>
+                        {% elsif page.step_number == "Step 8" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/final-model/">Back to Step 7</a></li>
+                        {% endif %}
+
+                        <li><a class="btn btn-primary btn-xl" href="{{ site.baseurl }}/index.html#services">Return to Roadmap</a></li>
+
+                        {% assign current_step = page.step_number | strip %}
+                        {% if current_step == "Step 1" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/eda/">To Step 2</a></li>
+                        {% elsif current_step == "Step 2" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/missingness/">To Step 3</a></li>
+                        {% elsif current_step == "Step 3" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/hypothesis/">To Step 4</a></li>
+                        {% elsif current_step == "Step 4" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/prediction/">To Step 5</a></li>
+                        {% elsif current_step == "Step 5" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/baseline/">To Step 6</a></li>
+                        {% elsif current_step == "Step 6" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/final-model/">To Step 7</a></li>
+                        {% elsif current_step == "Step 7" %}
+                            <li><a class="btn btn-default btn-xl" href="{{ site.baseurl }}/fairness/">To Step 8</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include footer.html %}
+{% include scripts.html %}
+</body>
+</html>
