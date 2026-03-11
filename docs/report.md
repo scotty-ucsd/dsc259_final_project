@@ -1,7 +1,7 @@
 ---
 layout: report
 title: Project Analysis Report
-permalink: /report-v2/
+permalink: /report/
 ---
 
 <div id="introduction"></div>
