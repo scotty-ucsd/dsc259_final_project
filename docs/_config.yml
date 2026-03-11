@@ -10,3 +10,5 @@ github_username: "scotty-ucsd"
 
 # Build settings
 markdown: kramdown
+kramdown:
+  math_engine: mathjax

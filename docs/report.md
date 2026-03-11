@@ -183,9 +183,9 @@ Raw `OUTAGE.DURATION` has a skewness exceeding 10, with extreme outliers above 1
 
 The F-statistic is defined as:
 
-\[
+$$
 F = \frac{\text{Variance explained by state}}{\text{Residual variance}}
-\]
+$$
 
 A large F relative to the null distribution indicates that state membership explains a meaningful share of duration variation.
 
@@ -242,11 +242,11 @@ We restrict our feature set to variables that are known at outage onset or are r
 
 We evaluate model performance using **RMSE (Root Mean Squared Error)**, defined as:
 
-\[
+$$
 \text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
-\]
+$$
 
-where \(y_i\) is the true number of customers affected and \(\hat{y}_i\) is the model's prediction. RMSE is reported in the original units of `CUSTOMERS.AFFECTED`, making it directly interpretable. We prefer RMSE over MAE here because it penalizes large errors more heavily, which is appropriate: underestimating a major outage affecting hundreds of thousands of customers is substantially worse than a comparable relative miss on a small event.
+where $y_i$ is the true number of customers affected and $\hat{y}_i$ is the model's prediction. RMSE is reported in the original units of `CUSTOMERS.AFFECTED`, making it directly interpretable. We prefer RMSE over MAE here because it penalizes large errors more heavily, which is appropriate: underestimating a major outage affecting hundreds of thousands of customers is substantially worse than a comparable relative miss on a small event.
 
 ---
 
@@ -393,9 +393,9 @@ Our fairness metric is the group-wise RMSE of the final model on the held-out te
 
 **Test statistic:**
 
-\[
+$$
 T_{\text{obs}} = \text{RMSE}_{\text{large}} - \text{RMSE}_{\text{small+medium}}
-\]
+$$
 
 ---
 
