@@ -20,8 +20,19 @@
             <!-- Left sidebar navigation -->
             <div class="col-lg-2 col-md-3 hidden-sm hidden-xs" style="position: fixed; top: 80px; height: calc(100vh - 80px); overflow-y: auto; border-right: 1px solid #eee; padding-top: 20px;">
                 <ul class="nav nav-pills nav-stacked" style="font-size: 13px;">
-                    <li><a href="#introduction">Introduction</a></li>
-                    <li><a href="#eda">EDA</a></li>
+                    <li><a href="#introduction">Introduction</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#the-objective" style="padding-left: 20px; color: #888;">The Objective</a></li>
+                            <li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#eda">EDA</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#data-cleaning" style="padding-left: 20px; color: #888;">Data Cleaning</a></li>
+                            <li><a href="#univariate-analysis" style="padding-left: 20px; color: #888;">Univariate Analysis</a></li>
+                            <li><a href="#bivariate-analysis" style="padding-left: 20px; color: #888;">Bivariate Analysis</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#missingness">Missingness</a></li>
                     <li><a href="#hypothesis">Hypothesis</a></li>
                     <li><a href="#prediction">Prediction</a></li>
@@ -30,8 +41,7 @@
                     <li><a href="#fairness">Fairness</a></li>
                     <li><a href="#closing">Closing</a></li>
                 </ul>
-            </div>
-
+            </div> 
             <!-- Main report content -->
             <div class="col-lg-offset-2 col-md-offset-3 col-lg-8 col-md-9">
                 <div class="report-body" style="padding: 20px 40px;">

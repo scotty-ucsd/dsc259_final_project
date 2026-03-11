@@ -13,6 +13,7 @@ Grid stability is a pillar of both national security and everyday modern life. T
 
 ---
 
+<div id="the-objective"></div>
 ### The Objective
 
 **Central question:** *Can we accurately predict an outage's impact, measured by `CUSTOMERS.AFFECTED`, using only information available at the moment an outage begins?*
@@ -21,6 +22,7 @@ We chose `CUSTOMERS.AFFECTED` because it is the most direct measure of public im
 
 ---
 
+<div id="roadmap"></div>
 ### Roadmap
 
 To answer this question, the report proceeds in the following stages:
@@ -34,6 +36,7 @@ To answer this question, the report proceeds in the following stages:
 <div id="eda"></div>
 ## Data Cleaning and Exploratory Data Analysis
 
+<div id="data-cleaning"></div>
 ### Data Cleaning
 
 The raw dataset arrived as a formatted Excel file with metadata rows, a units row, and a redundant index column that required cleanup before any analysis could begin. After stripping the header rows and re-saving as a CSV, we loaded 1,534 records across 56 columns into a pandas DataFrame. Eight duplicate rows were removed, leaving 1,526 unique records. To manage the breadth of 56 columns, we organized every variable into seven thematic categories: Identifier, Temporal, Spatial and Climate, Outage Impact and Cause, Electricity Economics, State Economics, and Demographics and Land Use. Each category was inspected independently to identify cleaning needs.
@@ -57,6 +60,7 @@ After cleaning, the dataset retains 1,456 rows and is free of structural issues.
 
 ### Exploratory Data Analysis
 
+<div id="univariate-analysis"></div>
 #### Univariate Analysis
 
 The first plot below maps outage counts across NERC reliability regions. Rather than following state lines, these regions reflect how the physical grid is organized and operated.
@@ -73,6 +77,7 @@ The Northeast and South climate regions contain the largest share of outage even
 
 ---
 
+<div id="bivariate-analysis"></div>
 #### Bivariate Analysis
 
 The first bivariate plot examines the relationship between climate zone and outage duration using a log-scale box plot. The log transform (log(minutes + 1)) is necessary because outage durations span from near-zero events to multi-day disruptions, and without it the largest outliers would compress all other variation into an unreadable band.
