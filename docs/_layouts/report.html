@@ -6,7 +6,7 @@
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{ site.baseurl }}/" title="Return to Home">
+            <a class="navbar-brand" href='{{ "/report/" | relative_url }}' title="Return to Top">
                 <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
             </a>
         </div>
@@ -22,24 +22,24 @@
                 <ul class="nav nav-pills nav-stacked" style="font-size: 13px;">
                     <li><a href="#introduction">Introduction</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
-                            <li><a href="#the-objective" style="padding-left: 20px; color: #888;">The Objective</a></li>
+                            <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
                             <li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>
                         </ul>
                     </li>
-                    <li><a href="#eda">EDA</a>
+                    <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
                             <li><a href="#data-cleaning" style="padding-left: 20px; color: #888;">Data Cleaning</a></li>
                             <li><a href="#univariate-analysis" style="padding-left: 20px; color: #888;">Univariate Analysis</a></li>
                             <li><a href="#bivariate-analysis" style="padding-left: 20px; color: #888;">Bivariate Analysis</a></li>
                         </ul>
                     </li>
-                    <li><a href="#missingness">Missingness</a></li>
-                    <li><a href="#hypothesis">Hypothesis</a></li>
-                    <li><a href="#prediction">Prediction</a></li>
-                    <li><a href="#baseline">Baseline</a></li>
+                    <li><a href="#missingness">Assessment of Missingness</a></li>
+                    <li><a href="#hypothesis">Hypothesis Testing</a></li>
+                    <li><a href="#prediction">Framing a Prediction Problem</a></li>
+                    <li><a href="#baseline">Baseline Model</a></li>
                     <li><a href="#final-model">Final Model</a></li>
-                    <li><a href="#fairness">Fairness</a></li>
-                    <li><a href="#closing">Closing</a></li>
+                    <li><a href="#fairness">Fairness Analysis</a></li>
+                    <li><a href="#conclusion">Conclusion</a></li>
                 </ul>
             </div> 
             <!-- Main report content -->
@@ -49,7 +49,7 @@
                 </div>
                 <div style="margin-top: 80px; padding-bottom: 50px; text-align: center;">
                     <hr class="primary">
-                    <a class="btn btn-primary btn-xl" href="{{ site.baseurl }}/index.html">Return to Home</a>
+                    <a class="btn btn-primary btn-xl" href='{{ "/report/" | relative_url }}'>Return to Top</a>
                 </div>
             </div>
 

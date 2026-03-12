@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 4 <br>
+                    <small style="color: #222; font-weight: 700;">Hypothesis Testing</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="framing-the-question">Framing the Question</h2>
+<p><em>Clearly state a pair of hypotheses and perform a hypothesis test or permutation test that is not related to missingness. Feel free to use one of the example questions stated in the “Example Questions and Prediction Problems” section of your dataset’s description page or pose a hypothesis test of your own</em></p>
+
+<h3 id="the-hypotheses">The Hypotheses</h3>
+<ul>
+  <li><strong>Null Hypothesis ($H_0$):</strong> In the population, the [Outcome] for [Group A] and [Group B] come from the same distribution, and any observed difference in our sample is due to random chance.</li>
+  <li><strong>Alternative Hypothesis ($H_1$):</strong> In the population, the [Outcome] for [Group A] is significantly [greater/less/different] than [Group B]. The observed difference is unlikely to have occurred by chance alone.</li>
+</ul>
+
+<hr />
+
+<h2 id="test-statistic-and-significance-level">Test Statistic and Significance Level</h2>
+<p>To evaluate these hypotheses, we must choose a metric that best captures the difference between our groups.</p>
+
+<ul>
+  <li><strong>Test Statistic:</strong> [e.g., Difference in Sample Means or Total Variation Distance]
+    <ul>
+      <li><strong>Justification:</strong> We chose this statistic because [e.g., it effectively measures the shift in central tendency between two numerical distributions].</li>
+    </ul>
+  </li>
+  <li><strong>Significance Level ($\alpha$):</strong> 0.05
+    <ul>
+      <li><strong>Justification:</strong> A 5% significance level is a standard threshold in exploratory data science to balance the risk of Type I and Type II errors.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="permutation-test-and-results">Permutation Test and Results</h2>
+<p>We conducted a <strong>permutation test</strong> by shuffling the group labels 10,000 times to simulate the distribution of the test statistic under the null hypothesis.</p>
+
+<ul>
+  <li><strong>P-Value:</strong> [Insert Value, e.g., 0.024]</li>
+  <li><strong>Observed Statistic:</strong> [Insert Value]</li>
+</ul>
+
+<p><em>add plot here</em></p>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+<p><em>add checkpoint list here</em></p>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/missingness/">Back to Step 3</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/prediction/">To Step 5</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

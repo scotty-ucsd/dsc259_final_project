@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 2 <br>
+                    <small style="color: #222; font-weight: 700;">Data Cleaning and EDA</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="background">Background</h2>
+<p>As we embark on the data science life cycle, we must conduct a comprehensive inspection beyond the sneak peek that revealed major formatting issues in <a href="/dsc259_final_project/introduction/">Step 1: Introduction</a>. During this phase, we polish the raw data into a usable format. Our cleaning process entails the following:</p>
+<ul>
+  <li><strong>Duplicate Analysis:</strong> Checking for and removing duplicate observations.</li>
+  <li><strong>Null Element Inspection:</strong> Analyzing the frequency and distribution of <code class="language-plaintext highlighter-rouge">NaN</code> or <code class="language-plaintext highlighter-rouge">Null</code> values.</li>
+  <li><strong>Feature Definition:</strong> Mapping out what each column represents to ensure contextual accuracy.</li>
+  <li><strong>Data Type Standardization:</strong> Converting columns to appropriate numeric or datetime types.</li>
+</ul>
+
+<hr />
+
+<h2 id="plan-of-action">Plan of Action</h2>
+<p>We will split this investigation into two distinct parts.</p>
+
+<h3 id="part-a-data-cleaning">Part A: Data Cleaning</h3>
+<ol>
+  <li><strong>Address Formatting:</strong> Trimming metadata rows and aligning headers.</li>
+  <li><strong>Define Features:</strong> Clarifying the units and meanings of each column.</li>
+  <li><strong>Examine Dataset Size:</strong> Quantifying rows, columns, and total elements.</li>
+  <li><strong>Inspect Nulls:</strong> Identifying missingness across the dataset.</li>
+</ol>
+
+<h3 id="part-b-exploratory-data-analysis">Part B: Exploratory Data Analysis</h3>
+<ol>
+  <li><strong>Standardize Units:</strong> Converting raw values into comparable metrics.</li>
+  <li><strong>Standardize Features:</strong> Normalizing column names for programmatic access.</li>
+  <li><strong>Univariate Analysis:</strong> Analyzing the distribution of individual variables.</li>
+  <li><strong>Bivariate Analysis:</strong> Exploring relationships between pairs of variables.</li>
+  <li><strong>Interesting Aggregates:</strong> Utilizing pivot tables and group-bys to find hidden trends.</li>
+</ol>
+
+<hr />
+
+<h2 id="data-cleaning">Data Cleaning</h2>
+
+<h3 id="address-formatting">Address Formatting</h3>
+<p>A raw inspection of the dataset using <code class="language-plaintext highlighter-rouge">head</code> on <code class="language-plaintext highlighter-rouge">data/outage.csv</code> reveals a intricate structure at the top of the file that prevents standard CSV parsing:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">head </span>data/outage.csv
+
+Major power outage events <span class="k">in </span>the continental U.S.,,,,,
+Time period: January 2000 - July 2016,,,,,,,,
+Regions affected: Outages reported <span class="k">in </span>this data file affected a single U.S. state...
+,,,,,,,,
+,,,,,,,,
+variables,OBS,YEAR,MONTH,U.S._STATE,POSTAL.CODE...
+Units,,,,,,,,numeric...
+</code></pre></div></div>
+
+<p>To “buff out the dents” of this irregular structure, we utilized targeted shell commands to bypass the metadata (rows 1-5) and the unit descriptions (row 7), resulting in a standardized file:</p>
+
+<ul>
+  <li><strong>Extracting Headers:</strong></li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">head</span> <span class="nt">-6</span> data/outage.csv | <span class="nb">tail</span> <span class="nt">-1</span> | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s1">','</span> <span class="nt">-f</span> 2- <span class="o">&gt;</span> data/outage_clean.csv
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Appending Data:</strong></li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tail</span> <span class="nt">-n</span> +8 data/outage.csv | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s1">','</span> <span class="nt">-f</span> 2- <span class="o">&gt;&gt;</span> data/outage_clean.csv
+</code></pre></div></div>
+
+<h3 id="defined-features">Defined Features</h3>
+<p>The following table shows features in the dataset that have non-null units.</p>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Units / Format</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ANOMALY.LEVEL</strong></td>
+                <td>numeric</td>
+            </tr>
+            <tr>
+                <td><strong>OUTAGE.START.DATE</strong></td>
+                <td>Day of the week, Month Day, Year</td>
+            </tr>
+            <tr>
+                <td><strong>OUTAGE.START.TIME</strong></td>
+                <td>Hour:Minute:Second (AM / PM)</td>
+            </tr>
+            <tr>
+                <td><strong>OUTAGE.RESTORATION.DATE</strong></td>
+                <td>Day of the week, Month Day, Year</td>
+            </tr>
+            <tr>
+                <td><strong>OUTAGE.RESTORATION.TIME</strong></td>
+                <td>Hour:Minute:Second (AM / PM)</td>
+            </tr>
+            <tr>
+                <td><strong>OUTAGE.DURATION</strong></td>
+                <td>mins</td>
+            </tr>
+            <tr>
+                <td><strong>DEMAND.LOSS.MW</strong></td>
+                <td>Megawatt</td>
+            </tr>
+            <tr>
+                <td><strong>RES.PRICE</strong></td>
+                <td>cents / kilowatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>COM.PRICE</strong></td>
+                <td>cents / kilowatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>IND.PRICE</strong></td>
+                <td>cents / kilowatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL.PRICE</strong></td>
+                <td>cents / kilowatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>RES.SALES</strong></td>
+                <td>Megawatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>COM.SALES</strong></td>
+                <td>Megawatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>IND.SALES</strong></td>
+                <td>Megawatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL.SALES</strong></td>
+                <td>Megawatt-hour</td>
+            </tr>
+            <tr>
+                <td><strong>RES.PERCEN</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>COM.PERCEN</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>IND.PERCEN</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>RES.CUST.PCT</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>COM.CUST.PCT</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>IND.CUST.PCT</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>PC.REALGSP.STATE</strong></td>
+                <td>USD</td>
+            </tr>
+            <tr>
+                <td><strong>PC.REALGSP.USA</strong></td>
+                <td>USD</td>
+            </tr>
+            <tr>
+                <td><strong>PC.REALGSP.REL</strong></td>
+                <td>fraction</td>
+            </tr>
+            <tr>
+                <td><strong>PC.REALGSP.CHANGE</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>UTIL.REALGSP</strong></td>
+                <td>USD</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL.REALGSP</strong></td>
+                <td>USD</td>
+            </tr>
+            <tr>
+                <td><strong>UTIL.CONTRI</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>PI.UTIL.OFUSA</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>POPPCT_URBAN</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>POPPCT_UC</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>POPDEN_URBAN</strong></td>
+                <td>persons per square mile</td>
+            </tr>
+            <tr>
+                <td><strong>POPDEN_UC</strong></td>
+                <td>persons per square mile</td>
+            </tr>
+            <tr>
+                <td><strong>POPDEN_RURAL</strong></td>
+                <td>persons per square mile</td>
+            </tr>
+            <tr>
+                <td><strong>AREAPCT_URBAN</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>AREAPCT_UC</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>PCT_LAND</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>PCT_WATER_TOT</strong></td>
+                <td>%</td>
+            </tr>
+            <tr>
+                <td><strong>PCT_WATER_INLAND</strong></td>
+                <td>%</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h3 id="dataset-size">Dataset Size</h3>
+<p>After standardizing the format, we examined the size of the data to gather the extent of missing information.</p>
+<ul>
+  <li><strong>Columns:</strong> 56</li>
+  <li><strong>Rows:</strong> 1534</li>
+  <li><strong>Total elements:</strong> 85904</li>
+</ul>
+
+<h3 id="null-inspection">Null Inspection</h3>
+<p>The summary below captures the non-null counts and data types for our all columns containing any null values. Notable gaps will be addressed in <a href="/dsc259_final_project/missingness/">Step 3: Missingness</a></p>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Column</th>
+                <th>Non-Null Count</th>
+                <th>Dtype</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2</td>
+                <td>MONTH</td>
+                <td>1525 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>CLIMATE.REGION</td>
+                <td>1528 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>ANOMALY.LEVEL</td>
+                <td>1525 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>CLIMATE.CATEGORY</td>
+                <td>1525 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>OUTAGE.START.DATE</td>
+                <td>1525 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>OUTAGE.START.TIME</td>
+                <td>1525 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>OUTAGE.RESTORATION.DATE</td>
+                <td>1476 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>OUTAGE.RESTORATION.TIME</td>
+                <td>1476 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>CAUSE.CATEGORY.DETAIL</td>
+                <td>1063 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>HURRICANE.NAMES</td>
+                <td>72 non-null</td>
+                <td>object</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>OUTAGE.DURATION</td>
+                <td>1476 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>DEMAND.LOSS.MW</td>
+                <td>829 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>CUSTOMERS.AFFECTED</td>
+                <td>1091 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>RES.PRICE</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>COM.PRICE</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>IND.PRICE</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>TOTAL.PRICE</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>RES.SALES</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>COM.SALES</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>IND.SALES</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>TOTAL.SALES</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td>RES.PERCEN</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>COM.PERCEN</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>IND.PERCEN</td>
+                <td>1512 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>49</td>
+                <td>POPDEN_UC</td>
+                <td>1524 non-null</td>
+                <td>float64</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>POPDEN_RURAL</td>
+                <td>1524 non-null</td>
+                <td>float64</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr />
+
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<p><em>Insert some comment here</em></p>
+
+<h3 id="standardize-and-select-features">Standardize and Select Features</h3>
+<h4 id="1-datetime-standardization">1. Datetime Standardization</h4>
+<p>The raw data split outage information into separate date and time strings (e.g., “Friday, July 1, 2011” and “5:00:00 PM”). We merged these and applied the explicit format string <code class="language-plaintext highlighter-rouge">%A, %B %d, %Y %I:%M:%S %p</code> to create unified <code class="language-plaintext highlighter-rouge">START.DATETIME</code> and <code class="language-plaintext highlighter-rouge">RESTORATION.DATETIME</code> features.</p>
+
+<h4 id="2-feature-refinement">2. Feature Refinement</h4>
+<ul>
+  <li><strong>Redundancy Removal:</strong> We dropped the original <code class="language-plaintext highlighter-rouge">OUTAGE.START.DATE</code>, <code class="language-plaintext highlighter-rouge">OUTAGE.START.TIME</code>, <code class="language-plaintext highlighter-rouge">OUTAGE.RESTORATION.DATE</code>, and <code class="language-plaintext highlighter-rouge">OUTAGE.RESTORATION.TIME</code> columns.</li>
+  <li><strong>Handling Incompletes:</strong> We filtered out observations missing crucial temporal data, specifically dropping rows where <code class="language-plaintext highlighter-rouge">START.DATETIME</code>, <code class="language-plaintext highlighter-rouge">RESTORATION.DATETIME</code>, or <code class="language-plaintext highlighter-rouge">OUTAGE.DURATION</code> contained null values.</li>
+</ul>
+
+<h4 id="3-cleaned-data-head">3. Cleaned Data Head</h4>
+<p>Below is the result of <code class="language-plaintext highlighter-rouge">df_cleaned.head()</code> head of our the cleaned DataFrame:</p>
+
+<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; padding-bottom: 15px;">
+    <table class="table table-striped table-bordered" style="font-size: 0.8em;">
+        <thead>
+            <tr>
+                <th>OBS</th><th>YEAR</th><th>MONTH</th><th>U.S._STATE</th><th>POSTAL.CODE</th><th>NERC.REGION</th><th>CLIMATE.REGION</th><th>ANOMALY.LEVEL</th><th>CLIMATE.CATEGORY</th><th>CAUSE.CATEGORY</th><th>...</th><th>POPDEN_URBAN</th><th>POPDEN_UC</th><th>POPDEN_RURAL</th><th>AREAPCT_URBAN</th><th>AREAPCT_UC</th><th>PCT_LAND</th><th>PCT_WATER_TOT</th><th>PCT_WATER_INLAND</th><th>START.DATETIME</th><th>RESTORATION.DATETIME</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td><td>2011</td><td>7.0</td><td>Minnesota</td><td>MN</td><td>MRO</td><td>East North Central</td><td>-0.3</td><td>normal</td><td>severe weather</td><td>...</td><td>2279.0</td><td>1700.5</td><td>18.2</td><td>2.14</td><td>0.6</td><td>91.592666</td><td>8.407334</td><td>5.478743</td><td>2011-07-01 17:00:00</td><td>2011-07-03 20:00:00</td>
+            </tr>
+            <tr>
+                <td>2</td><td>2014</td><td>5.0</td><td>Minnesota</td><td>MN</td><td>MRO</td><td>East North Central</td><td>-0.1</td><td>normal</td><td>intentional attack</td><td>...</td><td>2279.0</td><td>1700.5</td><td>18.2</td><td>2.14</td><td>0.6</td><td>91.592666</td><td>8.407334</td><td>5.478743</td><td>2014-05-11 18:38:00</td><td>2014-05-11 18:39:00</td>
+            </tr>
+            <tr>
+                <td>3</td><td>2010</td><td>10.0</td><td>Minnesota</td><td>MN</td><td>MRO</td><td>East North Central</td><td>-1.5</td><td>cold</td><td>severe weather</td><td>...</td><td>2279.0</td><td>1700.5</td><td>18.2</td><td>2.14</td><td>0.6</td><td>91.592666</td><td>8.407334</td><td>5.478743</td><td>2010-10-26 20:00:00</td><td>2010-10-28 22:00:00</td>
+            </tr>
+            <tr>
+                <td>4</td><td>2012</td><td>6.0</td><td>Minnesota</td><td>MN</td><td>MRO</td><td>East North Central</td><td>-0.1</td><td>normal</td><td>severe weather</td><td>...</td><td>2279.0</td><td>1700.5</td><td>18.2</td><td>2.14</td><td>0.6</td><td>91.592666</td><td>8.407334</td><td>5.478743</td><td>2012-06-19 04:30:00</td><td>2012-06-20 23:00:00</td>
+            </tr>
+            <tr>
+                <td>5</td><td>2015</td><td>7.0</td><td>Minnesota</td><td>MN</td><td>MRO</td><td>East North Central</td><td>1.2</td><td>warm</td><td>severe weather</td><td>...</td><td>2279.0</td><td>1700.5</td><td>18.2</td><td>2.14</td><td>0.6</td><td>91.592666</td><td>8.407334</td><td>5.478743</td><td>2015-07-18 02:00:00</td><td>2015-07-19 07:00:00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 id="univariate-analysis">Univariate Analysis</h3>
+<p>We examined the distribution of outage durations and their primary drivers. The <strong>Outage Duration</strong> histogram reveals a significant right-skew; while most outages are short-lived, the “long tail” represents extreme events that last thousands of minutes. Simultaneously, the <strong>Cause Category</strong> bar chart highlights “Severe Weather” and “Intentional Attack” as the most frequent triggers for outages in this dataset.</p>
+
+<div class="plotly-container" style="margin: 30px 0;">
+    <iframe src="/dsc259_final_project/img/plots/outage_duration.html" width="100%" height="500px" frameborder="0"></iframe>
+    <iframe src="/dsc259_final_project/img/plots/cause_category.html" width="100%" height="500px" frameborder="0"></iframe>
+    <p class="text-muted text-center">
+        <em>Figures 2 &amp; 3: Most outages are caused by severe weather or intentional attacks...</em>
+    </p>
+</div>
+
+<h3 id="bivariate-analysis">Bivariate Analysis</h3>
+<p>The effect season plays on outages, we looked at the relationship between the month an outage began and its duration.</p>
+
+<div class="plotly-container" style="margin: 30px 0;">
+    <iframe src="/dsc259_final_project/img/plots/duration_month.html" width="100%" height="500px" frameborder="0"></iframe>
+    <p class="text-muted text-center">
+        <em>Figure 4: Outage durations across months. The log scale reveals extreme restoration times.</em>
+    </p>
+</div>
+
+<h3 id="interesting-aggregates">Interesting Aggregates</h3>
+<p>The table below represents a pivot of the dataset, grouping by <strong>Climate Region</strong> and <strong>Cause Category</strong> to show the <strong>Median Outage Duration</strong>. This aggregation helps identify regional infrastructure vulnerabilities.</p>
+
+<div class="table-responsive" style="overflow-x: auto; display: block; width: 100%; padding-bottom: 15px;">
+    <table class="table table-striped table-bordered" style="white-space: nowrap; font-size: 0.9em;">
+        <thead>
+            <tr>
+                <th>CLIMATE.REGION</th>
+                <th>equipment failure</th>
+                <th>fuel supply emergency</th>
+                <th>intentional attack</th>
+                <th>islanding</th>
+                <th>public appeal</th>
+                <th>severe weather</th>
+                <th>system operability disruption</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Central</strong></td>
+                <td>149.0</td><td>7500.5</td><td>50.0</td><td>96.0</td><td>1410.0</td><td>1680.0</td><td>65.0</td>
+            </tr>
+            <tr>
+                <td><strong>East North Central</strong></td>
+                <td>761.0</td><td>13564.0</td><td>648.5</td><td>1.0</td><td>733.0</td><td>4005.0</td><td>2694.0</td>
+            </tr>
+            <tr>
+                <td><strong>Northeast</strong></td>
+                <td>159.0</td><td>12240.0</td><td>1.0</td><td>881.0</td><td>2760.0</td><td>3189.0</td><td>234.5</td>
+            </tr>
+            <tr>
+                <td><strong>Northwest</strong></td>
+                <td>702.0</td><td>1.0</td><td>74.0</td><td>21.0</td><td>898.0</td><td>3507.0</td><td>157.5</td>
+            </tr>
+            <tr>
+                <td><strong>South</strong></td>
+                <td>227.0</td><td>20160.0</td><td>100.0</td><td>493.5</td><td>430.0</td><td>2027.5</td><td>373.0</td>
+            </tr>
+            <tr>
+                <td><strong>Southeast</strong></td>
+                <td>308.5</td><td>NaN</td><td>108.0</td><td>NaN</td><td>4320.0</td><td>1355.0</td><td>110.0</td>
+            </tr>
+            <tr>
+                <td><strong>Southwest</strong></td>
+                <td>35.0</td><td>76.0</td><td>56.0</td><td>2.0</td><td>2275.0</td><td>2425.0</td><td>284.0</td>
+            </tr>
+            <tr>
+                <td><strong>West</strong></td>
+                <td>269.0</td><td>882.5</td><td>108.0</td><td>128.5</td><td>420.0</td><td>962.0</td><td>199.0</td>
+            </tr>
+            <tr>
+                <td><strong>West North Central</strong></td>
+                <td>61.0</td><td>NaN</td><td>0.5</td><td>56.0</td><td>439.5</td><td>83.0</td><td>NaN</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-data-cleaning">1. Data Cleaning</h4>
+<ul>
+  <li><strong>Report on Website:</strong> Describe, in detail, the data cleaning steps you took and how they affected your analyses. The steps should be explained in reference to the data generating process. Show the head of your cleaned DataFrame (see Part 2: Report for instructions
+<em>See Background and Brief Description sections above.</em></li>
+</ul>
+
+<h4 id="2-univariate-analysis">2. Univariate Analysis</h4>
+<ul>
+  <li><strong>Report on Website:</strong> Embed at least one plotly plot you created in your notebook that displays the distribution of a single column (see Part 2: Report for instructions). Include a 1-2 sentence explanation about your plot, making sure to describe and interpret any trends present. (Your notebook will likely have more visualizations than your website, and that’s fine. Feel free to embed more than one univariate visualization in your website if you’d like, but make sure that each embedded plot is accompanied by a description.)</li>
+</ul>
+
+<h4 id="3-bivariate-analysis">3. Bivariate Analysis</h4>
+<ul>
+  <li><strong>Report on Website:</strong> Embed at least one plotly plot that displays the relationship between two columns. Include a 1-2 sentence explanation about your plot, making sure to describe and interpret any trends present. (Your notebook will likely have more visualizations than your website, and that’s fine. Feel free to embed more than one bivariate visualization in your website if you’d like, but make sure that each embedded plot is accompanied by a description.)</li>
+</ul>
+
+<h4 id="4-interesting-aggregates">4. Interesting Aggregates</h4>
+<ul>
+  <li><strong>Report on Website:</strong> Embed at least one grouped table or pivot table in your website and explain its significance.</li>
+</ul>
+
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/introduction/">Back to Step 1</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/missingness/">To Step 3</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

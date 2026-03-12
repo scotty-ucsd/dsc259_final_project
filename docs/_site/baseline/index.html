@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 6 <br>
+                    <small style="color: #222; font-weight: 700;">Baseline Model</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <p>Describe your initial model, the features used (quantitative vs nominal), and its performance.</p>
+
+<hr />
+
+<h2 id="layout-page-step_number-step-6-step_title-baseline-model-permalink-baseline">layout: page step_number: “Step 6” step_title: “Baseline Model” permalink: /baseline/</h2>
+
+<h2 id="model-description-and-preprocessing">Model Description and Preprocessing</h2>
+
+<p>In this step, we implement a simple baseline model to establish a performance floor for our prediction task.</p>
+
+<ul>
+  <li><strong>Model Type:</strong> [e.g., Linear Regression, Logistic Regression, or a basic Decision Tree]</li>
+  <li><strong>Features Used:</strong></li>
+  <li><strong>Quantitative:</strong> <code class="language-plaintext highlighter-rouge">[List quantitative features, e.g., 'Age', 'Income']</code></li>
+  <li><strong>Ordinal:</strong> <code class="language-plaintext highlighter-rouge">[List ordinal features, e.g., 'Education Level', 'Rating']</code></li>
+  <li>
+    <p><strong>Nominal:</strong> <code class="language-plaintext highlighter-rouge">[List nominal features, e.g., 'City', 'Gender']</code></p>
+  </li>
+  <li><strong>Preprocessing Pipeline:</strong> [Describe how you handled different data types. For example, “We utilized a <code class="language-plaintext highlighter-rouge">scikit-learn</code> Pipeline to apply One-Hot Encoding to our nominal features while keeping quantitative features as-is.”]</li>
+</ul>
+
+<hr />
+
+<h2 id="baseline-performance">Baseline Performance</h2>
+
+<p>We split the data into training and testing sets to evaluate how well our model generalizes to unseen data.</p>
+
+<ul>
+  <li><strong>Evaluation Metric:</strong> <code class="language-plaintext highlighter-rouge">[Insert Metric from Step 5, e.g., F1-Score or RMSE]</code></li>
+  <li>
+    <p><strong>Test Score:</strong> <code class="language-plaintext highlighter-rouge">[Insert Value]</code></p>
+  </li>
+  <li>
+    <h2 id="insert-imgs">insert imgs</h2>
+  </li>
+</ul>
+
+<h2 id="model-evaluation">Model Evaluation</h2>
+
+<ul>
+  <li><strong>Is it “Good”?</strong> [State whether you believe this performance is acceptable for a baseline.]</li>
+  <li><strong>Justification:</strong> [Compare your score to a simple heuristic, such as the majority class accuracy or the mean value of the target, to justify why this model is or is not a strong starting point.]</li>
+</ul>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-list-the-features-in-your-baseline-model-and-classify-each-as-quantitative-ordinal-or-nominal">1. List the features in your baseline model and classify each as quantitative, ordinal, or nominal.</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="2-what-is-your-models-performance-on-the-test-set-and-do-you-consider-this-model-good-why-or-why-not">2. What is your model’s performance on the test set, and do you consider this model “good”? Why or why not?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="3-describe-the-preprocessing-steps-you-took-eg-one-hot-encoding-to-prepare-your-features-for-the-model">3. Describe the preprocessing steps you took (e.g., One-Hot Encoding) to prepare your features for the model.</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/prediction/">Back to Step 5</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/final-model/">To Step 7</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

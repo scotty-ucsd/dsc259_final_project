@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+
+<body id="page-top">
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+  <header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1>DSC259 Final Project: Power Outages</h1>
+            <hr>
+            <p>Following the data science lifecycle for major power outage risk in the U.S.</p>
+            <a href="#about" class="btn btn-primary btn-xl page-scroll">Dig in!</a>
+        </div>
+    </div>
+</header>
+
+  <section class="bg-primary" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading" style="color: white;">Accessing Data</h2>
+                <hr class="light">
+                <p class="text-faded text-left" style="color: rgba(255,255,255,.7);">
+                    <strong>Major Power Outage Risks in the U.S.:</strong> This dataset includes the major outages witnessed by different states in the continental U.S. Besides major outages, this data contains information on geographical location of the outages, regional climatic information, land-use characteristics, electricity consumption patterns, and economic characteristics of the states affected by the outages.
+                </p>
+                <a href="https://engineering.purdue.edu/LASCI/research-data/outages" target="_blank" class="btn btn-default btn-xl mt-4">Download Data</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <section id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Project Roadmap</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/introduction/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-file-text text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 1 <br> <small style="display: block; padding-top: 5px; color: #222;">Introduction</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/eda/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-area-chart text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 2 <br> <small style="display: block; padding-top: 5px; color: #222;">Data Cleaning and EDA</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/missingness/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-search text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 3 <br> <small style="display: block; padding-top: 5px; color: #222;">Assess Missingness</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/hypothesis/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-flask text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 4 <br> <small style="display: block; padding-top: 5px; color: #222;">Hypothesis Testing</small></h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 50px;">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/prediction/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-bullseye text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 5 <br> <small style="display: block; padding-top: 5px; color: #222;">Prediction Problem</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/baseline/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-gears text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 6 <br> <small style="display: block; padding-top: 5px; color: #222;">Baseline Model</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/final-model/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-line-chart text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 7 <br> <small style="display: block; padding-top: 5px; color: #222;">Final Model</small></h3>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <a href="/dsc259_final_project/fairness/" style="text-decoration: none; color: inherit;">
+                        <i class="fa fa-4x fa-gavel text-primary mb-3"></i>
+                        <h3 style="font-weight: 700;">Step 8 <br> <small style="display: block; padding-top: 5px; color: #222;">Fairness Analysis</small></h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <section class="no-padding" id="portfolio">
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <div class="col-lg-3 col-sm-6">
+                <a href="#" class="portfolio-box">
+                    <img src="/dsc259_final_project/img/portfolio/1.jpg" class="img-responsive" alt="Checkpoint 1">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                Deliverable
+                            </div>
+                            <div class="project-name">
+                                Check Point 1
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <a href="#" class="portfolio-box">
+                    <img src="/dsc259_final_project/img/portfolio/2.jpg" class="img-responsive" alt="Checkpoint 2">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                Deliverable
+                            </div>
+                            <div class="project-name">
+                                Check Point 2
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <a href="#" class="portfolio-box">
+                    <img src="/dsc259_final_project/img/portfolio/3.jpg" class="img-responsive" alt="Final Submission">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                Deliverable
+                            </div>
+                            <div class="project-name">
+                                Final Submission
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <a href="https://github.com/scotty-ucsd/dsc259_final_project_rsrogers" class="portfolio-box" target="_blank">
+                    <img src="/dsc259_final_project/img/portfolio/4.jpg" class="img-responsive" alt="GitHub Repository">
+                    <div class="portfolio-box-caption">
+                        <div class="portfolio-box-caption-content">
+                            <div class="project-category text-faded">
+                                Deliverable
+                            </div>
+                            <div class="project-name">
+                                GitHub Repository
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+
+  <section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">Meet the Team</h2>
+                <hr class="primary">
+                <p>Learn more about the creators of this project.</p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 40px;">
+            
+            <div class="col-sm-4 text-center">
+                <a href="/dsc259_final_project/bio-scotty" style="text-decoration: none; color: inherit;">
+                    <img src="/dsc259_final_project/img/team/scotty.jpg" class="img-responsive img-circle center-block" alt="Scotty" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #F05F40;">
+                    <h3 style="margin-top: 20px;">Scotty</h3>
+                    <p class="text-muted">Software Developer</p>
+                </a>
+            </div>
+
+            <div class="col-sm-4 text-center">
+                <a href="/dsc259_final_project/bio-hans" style="text-decoration: none; color: inherit;">
+                    <img src="/dsc259_final_project/img/team/rsrogers.jpg" class="img-responsive img-circle center-block" alt="RS Rogers" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #F05F40;">
+                    <h3 style="margin-top: 20px;">Hans</h3>
+                    <p class="text-muted">Role Title</p>
+                </a>
+            </div>
+
+            <div class="col-sm-4 text-center">
+                <a href="/dsc259_final_project/bio-jillian" style="text-decoration: none; color: inherit;">
+                    <img src="/dsc259_final_project/img/team/rsrogers.jpg" class="img-responsive img-circle center-block" alt="Member 3" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #F05F40;">
+                    <h3 style="margin-top: 20px;">Jillian</h3>
+                    <p class="text-muted">Role Title</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+  <footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+
+</html>

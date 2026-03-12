@@ -4,6 +4,12 @@ title: Project Analysis Report
 permalink: /report/
 ---
 
+
+
+
+
+
+
 <div id="introduction"></div>
 ## Introduction
 
@@ -13,8 +19,8 @@ Maintaining grid stability is critical to everything from national security to d
 
 ---
 
-<div id="the-objective"></div>
-### The Objective
+<div id="question-identification"></div>
+### Question Identification
 
 At the heart of this study lies a practical question:
 
@@ -37,7 +43,7 @@ We approach the question through a sequence of analytical stages:
 
 Each section builds on the last, turning insights from exploration into modeling choices and evaluation criteria.
 
-<div id="eda"></div>
+<div id="data-cleaning-and-EDA"></div>
 ## Data Cleaning and Exploratory Analysis
 
 <div id="data-cleaning"></div>
@@ -115,13 +121,48 @@ To refine our understanding, we examined whether the missingness of `DEMAND.LOSS
 
 <iframe src="{{ site.baseurl }}/img/plots/step3.4_tvd_permutation_climate.html" width="100%" height="450" frameborder="0"></iframe>
 
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Missingness Type</th>
+      <th>Takeaway</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HURRICANE.NAMES</td>
+      <td>Missing by design</td>
+      <td>Names only appear for hurricane‑caused outages.</td>
+    </tr>
+   <tr>
+      <td>DEMAND.LOSS.MW</td>
+      <td>NMAR</td>
+      <td>Reporting depends on utility metering, likely related to the true value.</td>
+    </tr>
+    <tr>
+      <td>DEMAND.LOSS.MW vs. CAUSE.CATEGORY</td>
+      <td>MAR conditional on cause</td>
+      <td>Cause affects whether a loss is reported.</td>
+    </tr>
+    <tr>
+      <td style="padding-right:35px;">DEMAND.LOSS.MW vs. CLIMATE.CATEGORY</td>
+      <td style="padding-right:30px;">MCAR conditional on climate</td>
+      <td>Climate does not influence recording.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
 | Column | Missingness Type | Takeaway |
 | :--- | :--- | :--- |
 | `HURRICANE.NAMES` | Missing by design | Names only appear for hurricane‑caused outages. |
 | `DEMAND.LOSS.MW` | NMAR | Reporting depends on utility metering, likely related to the true value. |
 | `DEMAND.LOSS.MW` vs. `CAUSE.CATEGORY` | MAR conditional on cause | Cause affects whether a loss is reported. |
 | `DEMAND.LOSS.MW` vs. `CLIMATE.CATEGORY` | MCAR conditional on climate | Climate does not influence recording. |
-
+-->
+\
 Any imputation strategy for `DEMAND.LOSS.MW` should therefore condition on outage cause but need not adjust for climate.
 
 <div id="hypothesis"></div>
@@ -143,11 +184,41 @@ The log transformation mitigates extreme skew and makes residuals more normal, s
 
 <iframe src="{{ site.baseurl }}/img/plots/step4.1_duration_by_state_wecc.html" width="100%" height="450" frameborder="0"></iframe>
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:60px;">Source</th>
+      <th style="padding-right:50px;">Sum of Squares</th>
+      <th style="padding-right:60px;">df</th>
+      <th style="padding-right:60px;">F</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U.S._STATE</td>
+      <td>309.05</td>
+      <td>10</td>
+      <td>5.0488</td>
+      <td>0.000001</td>
+    </tr>
+   <tr>
+      <td>Residual</td>
+      <td>2479.11</td>
+      <td>405</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+
 | Source | Sum of Squares | df | F | p-value |
 | :--- | ---: | ---: | ---: | ---: |
 | `U.S._STATE` | 309.05 | 10 | 5.0488 | 0.000001 |
 | Residual | 2479.11 | 405 | | |
-
+-->
+\
 The extremely small p-value leads us to reject the null: outage durations within WECC are not homogeneous across states.
 
 ### Interpretation
@@ -155,7 +226,7 @@ The extremely small p-value leads us to reject the null: outage durations within
 California experiences notably long outages, reflecting wildfire‑related pre‑emptive shutoffs, while Utah and Colorado tend toward quicker restorations. State factors therefore contribute additional explanatory power beyond the NERC region alone. This justifies including `U.S._STATE` directly in our predictive models.
 
 <div id="prediction"></div>
-## Framing the Prediction Task
+## Framing a Prediction Problem
 
 With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict `CUSTOMERS.AFFECTED`?
 
@@ -165,6 +236,60 @@ With state‑level effects established, we now pose a regression problem: using 
 
 Only variables known or reliably estimable at the start of an event are allowed, avoiding any leakage from future information such as actual duration.
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:120px;">Feature</th>
+      <th style="padding-right:75px;">Type</th>
+      <th>Why it's admissible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U.S._STATE</td>
+      <td>Nominal</td>
+      <td>Location is immediately known; state variation matters.</td>
+    </tr>
+     <tr>
+      <td>NERC.REGION</td>
+      <td>Nominal</td>
+      <td>Grid region is fixed per locality.</td>
+    </tr>
+    <tr>
+      <td>CLIMATE.CATEGORY</td>
+      <td>Nominal</td>
+      <td>Climate episode is classified in real time.</td>
+    </tr>
+     <tr>
+      <td>CAUSE.CATEGORY</td>
+      <td>Nominal</td>
+      <td>Initial cause is typically identified quickly.</td>
+    </tr>
+     <tr>
+      <td>ANOMALY.LEVEL</td>
+      <td>Quantitative</td>
+      <td>Pre‑published climate anomaly index.</td>
+    </tr>
+     <tr>
+      <td>POPULATION</td>
+      <td>Quantitative</td>
+      <td>Census data, known in advance.</td>
+    </tr>
+     <tr>
+      <td>POPPCT_URBAN</td>
+      <td>Quantitative</td>
+      <td>Also from prior census.</td>
+    </tr>
+     <tr>
+      <td>is_hurricane</td>
+      <td>Binary</td>
+      <td>Detectable from weather forecasts.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
 | Feature | Type | Why it's admissible |
 | :--- | :--- | :--- |
 | `U.S._STATE` | Nominal | Location is immediately known; state variation matters. |
@@ -175,6 +300,7 @@ Only variables known or reliably estimable at the start of an event are allowed,
 | `POPULATION` | Quantitative | Census data, known in advance. |
 | `POPPCT_URBAN` | Quantitative | Also from prior census. |
 | `is_hurricane` | Binary | Detectable from weather forecasts. |
+-->
 
 ### Evaluation Metric
 
@@ -191,25 +317,89 @@ After removing rows with missing responses or features, 1,045 observations remai
 
 Our initial benchmark is a Ridge regression on the log‑transformed `CUSTOMERS.AFFECTED`. Ridge helps manage the large number of dummy variables produced by one‑hot encoding `U.S._STATE` (about 50 columns) by shrinking coefficients toward zero, thus reducing overfitting. The log transformation tames the long right tail of the target.
 
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Encoding</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding-right:50px;">Nominal features (U.S._STATE, NERC.REGION, CLIMATE.CATEGORY, CAUSE.CATEGORY)</td>
+      <td>One‑hot</td>
+    </tr>
+    <tr>
+      <td>Quantitative features (ANOMALY.LEVEL, POPULATION, POPPCT_URBAN)</td>
+      <td>StandardScaler</td>
+    </tr>
+     <tr>
+      <td>is_hurricane</td>
+      <td>Pass through</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--
 | Feature | Encoding |
 | :--- | :--- |
 | Nominal features (`U.S._STATE`, `NERC.REGION`, `CLIMATE.CATEGORY`, `CAUSE.CATEGORY`) | One‑hot |
 | Quantitative features (`ANOMALY.LEVEL`, `POPULATION`, `POPPCT_URBAN`) | StandardScaler |
 | `is_hurricane` | Pass through |
+-->
+
 
 ### Baseline Results
 
+<!--
 <iframe src="{{ site.baseurl }}/img/plots/step6.1_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+-->
 
 <iframe src="{{ site.baseurl }}/img/plots/step6.2_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:60px;">Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RMSE</td>
+      <td>223,420 customers</td>
+    </tr>
+    <tr>
+      <td>R²</td>
+      <td>-0.0594</td>
+    </tr>
+    <tr>
+      <td>Test mean</td>
+      <td>131,051 customers</td>
+    </tr>
+    <tr>
+      <td>Test std</td>
+      <td>217,593 customers</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!--
 | Metric | Value |
 | :--- | ---: |
 | RMSE | 223,420 customers |
 | R² | -0.0594 |
 | Test mean | 131,051 customers |
 | Test std | 217,593 customers |
+-->
 
+\
 The baseline's RMSE slightly exceeds the test‑set standard deviation, and the negative R² indicates that the model does not outperform a constant mean predictor. In other words, the linear approximation is failing to capture the complex relationships inherent in outage severity.
 
 ### Baseline Shortcomings
@@ -236,23 +426,98 @@ Two engineered predictors augment the original feature set:
 
 Distribution of these bins in the data:
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Bin</th>
+      <th style="padding-right:20px;">Total</th>
+      <th style="padding-right:20px;">Train</th>
+      <th>Test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Large</td>
+      <td>595</td>
+      <td>477</td>
+      <td>118</td>
+    </tr>
+    <tr>
+      <td>Medium</td>
+        <td>362</td>
+      <td>289</td>
+      <td>73</td>
+    </tr>
+    <tr>
+      <td>Small</td>
+        <td>88</td>
+      <td>70</td>
+      <td>18</td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+<!--
 | Bin | Total | Train | Test |
 | :--- | ---: | ---: | ---: |
 | Large | 595 | 477 | 118 |
 | Medium | 362 | 289 | 73 |
 | Small | 88 | 70 | 18 |
+-->
+
+
 
 ### Hyperparameter Tuning
 
 We tuned four parameters via 5‑fold cross‑validation on the training set, optimizing RMSE back on the original scale. The search over 81 configurations yielded the following best settings:
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Hyperparameter</th>
+      <th style="padding-right:30px;">Chosen Value</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>learning_rate</td>
+      <td>0.5</td>
+      <td>Controls update step size.</td>
+    </tr>
+    <tr>
+      <td>max_depth</td>
+        <td>None</td>
+      <td>Trees grow until leaf constraints apply.</td>
+    </tr>
+    <tr>
+      <td>max_leaf_nodes</td>
+        <td>15</td>
+      <td>Limits tree complexity.</td>
+    </tr>
+<tr>
+      <td>min_samples_leaf</td>
+        <td>20</td>
+      <td>Enforces smoother predictions in small groups.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!--
 | Hyperparameter | Chosen Value | Purpose |
 | :--- | :--- | :--- |
 | `learning_rate` | 0.05 | Controls update step size. |
 | `max_depth` | None | Trees grow until leaf constraints apply. |
 | `max_leaf_nodes` | 15 | Limits tree complexity. |
 | `min_samples_leaf` | 20 | Enforces smoother predictions in small groups. |
+-->
 
+\
 The best cross‑validated RMSE was 290,297 customers on the training folds.
 
 ### Diagnostics
@@ -267,15 +532,43 @@ Residuals versus predicted values form a more compact, symmetric band around zer
 
 ### Final Performance
 
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Metric</th>
+      <th style="padding-right:30px;">Ridge Baseline</th>
+      <th style="padding-right:30px;">HGB Final</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RMSE</td>
+      <td>223,420</td>
+        <td>213,321</td>
+        <td>-10,099 (4.5% better)</td>
+    </tr>
+    <tr>
+      <td>R²</td>
+       <td>-0.0594</td>
+        <td>0.0343</td>
+        <td>+0.0937</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
 | Metric | Ridge Baseline | HGB Final | Change |
 | :--- | ---: | ---: | ---: |
 | RMSE | 223,420 | 213,321 | -10,099 (4.5% better) |
 | R² | -0.0594 | 0.0343 | +0.0937 |
-
+-->
+\
 The final model reduces RMSE by roughly 10,000 customers and pushes R² into positive territory. Although the RMSE remains slightly above the test standard deviation—highlighting the inherent difficulty of the task—these gains show that nonlinear modeling and targeted features can extract useful signal from onset‑time data.
 
 <div id="fairness"></div>
-## Fairness Evaluation
+## Fairness Analysis
 
 ### Defining Groups and Metric
 
@@ -298,21 +591,52 @@ To evaluate this, we perform a two‑sided permutation test with 5,000 iteration
 
 <iframe src="{{ site.baseurl }}/img/plots/step8.1_permutation_rmse_diff.html" width="100%" height="450" frameborder="0"></iframe>
 
+
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:150px;">Group</th>
+      <th>RMSE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Large states</td>
+      <td>259,518</td>
+    </tr>
+     <tr>
+      <td>Small+Medium states</td>
+      <td>131,077</td>
+    </tr>
+     <tr>
+      <td>Observed gap</td>
+      <td>128,442</td>
+    </tr>
+     <tr>
+      <td>Two‑sided p-value</td>
+      <td>0.8226</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
 | Group | RMSE |
 | :--- | ---: |
 | Large states | 259,518 |
 | Small+Medium states | 131,077 |
 | Observed gap | 128,442 |
 | Two‑sided p-value | 0.8226 |
-
+-->
+\
 The high p-value means we cannot reject the null hypothesis. The RMSE difference is consistent with random label assignment given the sample size.
 
 ### Interpretation
 
 This test does not prove the model is universally fair—it merely indicates that the apparent performance gap across population tiers is not statistically significant in this sample. Large states naturally experience more severe outages, inflating their RMSE regardless of model quality. Different fairness criteria or a larger dataset could yield different insights.
 
-<div id="closing"></div>
-## Closing Remarks
+<div id="conclusion"></div>
+## Conclusion
 
 This analysis walked through a complete pipeline—from raw outage data to a focused prediction problem and an equity check. Several themes emerged:
 

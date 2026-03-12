@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 3 <br>
+                    <small style="color: #222; font-weight: 700;">Assessment of Missingness</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="nmar-analysis">NMAR Analysis</h2>
+<p>To determine if a column is <strong>NMAR</strong>, we must consider the underlying process.</p>
+
+<hr />
+
+<h2 id="missingness-dependency">Missingness Dependency</h2>
+<p>In this section, we analyze whether the missingness of <strong>[Selected Column]</strong></p>
+
+<h3 id="1-significant-dependency-selected-column-vs-column-a">1. Significant Dependency: [Selected Column] vs. [Column A]</h3>
+<p>We tested if the missingness of <strong>[Selected Column]</strong> depends on <strong>[Column A]</strong>.</p>
+<ul>
+  <li><strong>Test Statistic:</strong> [Insert Test Statistic]</li>
+  <li><strong>Significance Level:</strong> 0.05</li>
+  <li><strong>Observed Statistic:</strong> [Insert Value]</li>
+  <li><strong>P-Value:</strong> [Insert Value]</li>
+</ul>
+
+<p><strong>Interpretation:</strong> Since the p-value is [lower/higher] than 0.05, we [reject/fail to reject] the null hypothesis. This suggests that the missingness of [Selected Column] <strong>is dependent</strong> on [Column A], making it <strong>MAR</strong>.</p>
+
+<p><em>insert plot here</em></p>
+
+<hr />
+
+<h3 id="2-no-significant-dependency-selected-column-vs-column-b">2. No Significant Dependency: [Selected Column] vs. [Column B]</h3>
+<p>We also tested the dependency of <strong>[Selected Column]</strong> missingness on <strong>[Column B, e.g., YEAR]</strong>.</p>
+<ul>
+  <li><strong>Test Statistic:</strong> [e.g., Difference in Means]</li>
+  <li><strong>Significance Level:</strong> 0.05</li>
+  <li><strong>Observed Statistic:</strong> [Insert Value]</li>
+  <li><strong>P-Value:</strong> [Insert Value]</li>
+</ul>
+
+<p><strong>Interpretation:</strong> With a p-value of [Insert Value], we <strong>fail to reject</strong> the null hypothesis. This indicates that the missingness of [Selected Column] does <strong>not</strong> appear to depend on [Column B].</p>
+
+<p><em>insert plot here</em></p>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-nmar-vs-mar">1. NMAR vs. MAR</h4>
+<p>The core difference lies in whether the “reason” for missingness is contained within our observed data. By performing permutation tests, we moved [Selected Column] from a state of unknown missingness to MAR by proving its dependency on [Column A].</p>
+
+<h4 id="2-permutation-test-interpretation">2. Permutation Test Interpretation</h4>
+<p>The empirical distribution of our test statistic shows that our observed difference is [extreme / typical]. This statistical evidence allows us to conclude that… [finalize your interpretation here].</p>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/eda/">Back to Step 2</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/hypothesis/">To Step 4</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

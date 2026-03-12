@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 1 <br>
+                    <small style="color: #222; font-weight: 700;">Introduction</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="background">Background</h2>
+<ul>
+  <li>This dataset is provided by the Laboratory for Advancing Sustainable Critical Infrastructure at Purdue University.</li>
+  <li>It documents major power outages across the continental U.S.</li>
+  <li>Beyond outage specifics, the data covers:
+    <ul>
+      <li><strong>Geographical location</strong> and <strong>land-use characteristics</strong>.</li>
+      <li><strong>Climatic information</strong> and regional weather patterns.</li>
+      <li><strong>Electricity consumption</strong> and <strong>economic characteristics</strong> of affected states.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="brief-description">Brief Description</h2>
+<ul>
+  <li>An initial look at the raw data revealed an irregular structure unsuitable for direct analysis.</li>
+</ul>
+
+<div class="text-center" style="margin: 30px 0;">
+    <img src="/dsc259_final_project/img/data_preview.png" class="img-responsive center-block" alt="Raw Data Preview" style="border: 1px solid #ddd; border-radius: 4px;" />
+    <p class="text-muted" style="margin-top: 10px;"><em>Figure 1: The original Excel formatting includes metadata rows and non-standard headers.</em></p>
+</div>
+
+<ul>
+  <li>Because the Excel sheet was designed for human interaction rather than machine reading, we must standardize it into a clean <code class="language-plaintext highlighter-rouge">.csv</code> format.</li>
+  <li><strong>Key Formatting Issues:</strong>
+    <ol>
+      <li><strong>Column 1:</strong> Contains metadata that is not relevant to our analysis.</li>
+      <li><strong>Row Offset:</strong> The column headers begin on the 6th row, while actual data observations start on row 8.</li>
+      <li><strong>Units:</strong> The 7th row contains unit descriptions (e.g., Megawatts, Dollars) which interfere with data types.</li>
+    </ol>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-describe-your-dataset">1. Describe your dataset</h4>
+<p><em>See Background and Brief Description sections above.</em></p>
+
+<h4 id="2-what-is-the-central-question-you-are-answering">2. What is the central question you are answering?</h4>
+<ul>
+  <li>[Insert potential specific research question here]</li>
+  <li><strong>IMPORTANT</strong> DEFINE QUESTION THIS IS FIRST IN DATA SCIENCE LIFE CYCLE <strong>IMPORTANT</strong></li>
+</ul>
+
+<h4 id="3-why-does-power-outage-risk-matter">3. Why does power outage risk matter?</h4>
+<ul>
+  <li>[Insert your reasoning here]</li>
+</ul>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/eda/">To Step 2</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

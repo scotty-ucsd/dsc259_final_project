@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href='/dsc259_final_project/report/' title="Return to Top">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<section id="report-content" style="padding-top: 80px;">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Left sidebar navigation -->
+            <div class="col-lg-2 col-md-3 hidden-sm hidden-xs" style="position: fixed; top: 80px; height: calc(100vh - 80px); overflow-y: auto; border-right: 1px solid #eee; padding-top: 20px;">
+                <ul class="nav nav-pills nav-stacked" style="font-size: 13px;">
+                    <li><a href="#introduction">Introduction</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
+                            <li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#data-cleaning" style="padding-left: 20px; color: #888;">Data Cleaning</a></li>
+                            <li><a href="#univariate-analysis" style="padding-left: 20px; color: #888;">Univariate Analysis</a></li>
+                            <li><a href="#bivariate-analysis" style="padding-left: 20px; color: #888;">Bivariate Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#missingness">Assessment of Missingness</a></li>
+                    <li><a href="#hypothesis">Hypothesis Testing</a></li>
+                    <li><a href="#prediction">Framing a Prediction Problem</a></li>
+                    <li><a href="#baseline">Baseline Model</a></li>
+                    <li><a href="#final-model">Final Model</a></li>
+                    <li><a href="#fairness">Fairness Analysis</a></li>
+                    <li><a href="#conclusion">Conclusion</a></li>
+                </ul>
+            </div> 
+            <!-- Main report content -->
+            <div class="col-lg-offset-2 col-md-offset-3 col-lg-8 col-md-9">
+                <div class="report-body" style="padding: 20px 40px;">
+                    <div id="introduction"></div>
+<h2 id="introduction">Introduction</h2>
+
+<p>The dataset on <strong>Major Power Outage Risks in the U.S.</strong>, assembled by Purdue University’s LASCI group, chronicles 1,534 severe grid failures that occurred across the continental United States between January 2000 and July 2016. Each entry conveys far more than a date: it records climate indicators, geographic and economic context at the state level, and demographic characteristics that together paint a rich portrait of the conditions surrounding each disruption.</p>
+
+<p>Maintaining grid stability is critical to everything from national security to day‑to‑day life. Because the U.S. grid is a mosaic of interlocking regional networks, the factors that influence outages can change dramatically from one locale to the next. By integrating technical outage logs with socioeconomic data such as state GDP and urbanization, we aim to move beyond simple event summaries toward tools that can anticipate how severe an outage will be and enable more informed resource allocation.</p>
+
+<hr />
+
+<div id="question-identification"></div>
+<h3 id="question-identification">Question Identification</h3>
+
+<p>At the heart of this study lies a practical question:</p>
+
+<blockquote>
+  <p><strong>Can we forecast the number of customers affected by an outage (<code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>) using only information available when the outage begins?</strong></p>
+</blockquote>
+
+<p>This metric is our proxy for public impact. Large outages ripple through communities, straining emergency services and infrastructure. An early, reasonably accurate estimate of customer loss could help utilities and first responders position crews and supplies before the scale is fully known.</p>
+
+<hr />
+
+<div id="roadmap"></div>
+<h3 id="roadmap">Roadmap</h3>
+
+<p>We approach the question through a sequence of analytical stages:</p>
+
+<ol>
+  <li><strong>Data cleaning and exploratory analysis</strong> to understand the raw material and surface key patterns.</li>
+  <li><strong>Missingness investigation</strong> for columns such as <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> that are often blank.</li>
+  <li><strong>Hypothesis testing</strong> to verify whether state identity matters beyond reliability region.</li>
+  <li><strong>Model development</strong>, starting with a Ridge regression baseline and progressing to a Histogram‑based Gradient Boosting final model.</li>
+  <li><strong>Fairness assessment</strong> to check for performance imbalances across states of different population sizes.</li>
+</ol>
+
+<p>Each section builds on the last, turning insights from exploration into modeling choices and evaluation criteria.</p>
+
+<div id="data-cleaning-and-EDA"></div>
+<h2 id="data-cleaning-and-exploratory-analysis">Data Cleaning and Exploratory Analysis</h2>
+
+<div id="data-cleaning"></div>
+<h3 id="data-cleaning">Data Cleaning</h3>
+
+<p>The source file was an Excel workbook with metadata rows and redundant columns that had to be stripped. After converting to CSV and loading into a DataFrame, we removed eight duplicates for a working set of 1,526 unique events. The dataset’s 56 columns were sorted into seven thematic groups—identifiers, temporal data, spatial and climate attributes, outage impact and cause, electricity economics, state economics, and demographics/land use—so that we could tackle each group consistently.</p>
+
+<p>Key transformation steps included:</p>
+
+<ol>
+  <li>Dropping the redundant <code class="language-plaintext highlighter-rouge">OBS</code> index column.</li>
+  <li>Merging start and restoration date/time into single datetime fields and discarding the originals.</li>
+  <li>Removing rows missing either timestamp to ensure reliable duration calculations.</li>
+  <li>Imputing six missing <code class="language-plaintext highlighter-rouge">CLIMATE.REGION</code> entries with state‑based labels.</li>
+  <li>Filling 471 missing <code class="language-plaintext highlighter-rouge">CAUSE.CATEGORY.DETAIL</code> entries by appending “unknown” to the parent category.</li>
+  <li>Creating a binary <code class="language-plaintext highlighter-rouge">is_hurricane</code> flag from the presence of <code class="language-plaintext highlighter-rouge">HURRICANE.NAMES</code> and dropping the original column.</li>
+  <li>Dropping rows with missing electricity economics data and removing <code class="language-plaintext highlighter-rouge">TOTAL.PRICE</code> as it is derivable.</li>
+  <li>Setting population density nulls for the District of Columbia to zero rather than discarding the row.</li>
+</ol>
+
+<p>After cleaning, the DataFrame contains 1,456 observations. The columns most affected by remaining gaps are <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> (about 46% missing) and <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code> (about 29%), topics we revisit in the next section.</p>
+
+<hr />
+
+<h3 id="exploratory-analysis">Exploratory Analysis</h3>
+
+<h4 id="univariate-patterns">Univariate Patterns</h4>
+
+<p>The distribution of outages by NERC reliability region reveals how physical grid structure, not political boundaries, governs outage frequency.</p>
+
+<iframe src="/dsc259_final_project/img/plots/univariate_plt3.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p>Regions differ markedly, often reflecting population concentrations and exposure to severe weather. When we recast the counts by climate region and overlay a state‑level choropleth, a few states stand out as major contributors to their environmental zones—California in the West, Texas in the South, and so on.</p>
+
+<iframe src="/dsc259_final_project/img/plots/univariate_plt4.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p>These two visualizations set the stage for more nuanced, feature‑level questions: Do outage durations shift by climate? Does month of year matter?</p>
+
+<hr />
+
+<h4 id="bivariate-relationships">Bivariate Relationships</h4>
+
+<p>A log‑scale box plot of outage duration by climate zone shows that median restoration times are fairly consistent across environments, but extremes—multi‑day outages—are more common in the Northeast and South.</p>
+
+<iframe src="/dsc259_final_project/img/plots/bivariate_plt5.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p>Seasonal analysis using month‑grouped box plots indicates that typical durations barely budge over the calendar, even though the frequency and magnitude of outliers fluctuate with the seasons. In other words, while catastrophic storms can drive long outages at particular times of year, the everyday outage remains surprisingly steady.</p>
+
+<iframe src="/dsc259_final_project/img/plots/bivariate_plt6.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p>This steady background suggests that predicting <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code> will require factors beyond simple climactic timing.</p>
+
+<div id="missingness"></div>
+<h2 id="understanding-missing-data">Understanding Missing Data</h2>
+
+<h3 id="mechanisms-behind-missingness">Mechanisms Behind Missingness</h3>
+
+<p>Two variables bear careful scrutiny: <code class="language-plaintext highlighter-rouge">HURRICANE.NAMES</code> and <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">HURRICANE.NAMES</code></strong> is missing in about 95% of rows. That pattern is not a flaw but expected: only hurricane‑related outages receive a name. The missingness is deterministically tied to <code class="language-plaintext highlighter-rouge">CAUSE.CATEGORY.DETAIL</code> and therefore is <em>missing by design</em>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code></strong> is different. Nearly half the entries are blank, even though every outage should theoretically have a megawatt loss. Smaller utilities, especially in rural areas, often lack SCADA metering needed to quantify peak demand lost. Consequently, the absence of a value likely correlates with the unobserved magnitude itself: minor outages are less likely to be measured. This reasoning places <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> in the <em>not missing at random</em> (NMAR) category.</p>
+
+<h3 id="testing-conditional-dependencies">Testing Conditional Dependencies</h3>
+
+<p>To refine our understanding, we examined whether the missingness of <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> depends on two observed categorical features: <code class="language-plaintext highlighter-rouge">CAUSE.CATEGORY</code> and <code class="language-plaintext highlighter-rouge">CLIMATE.CATEGORY</code>. Each test used the Total Variation Distance (TVD) statistic with 1,000 permutations.</p>
+
+<p><strong>Cause category:</strong> The TVD between missing and present distributions is 0.1844 (p &lt; 0.001), leading us to reject the null hypothesis of independence. Intentional attacks show up disproportionately among the missing cases, while system operability events are more prevalent when a value is recorded—consistent with the idea that smaller, localized disruptions are less likely to be metered.</p>
+
+<iframe src="/dsc259_final_project/img/plots/step3.1_missingness_cause_category.html" width="100%" height="450" frameborder="0"></iframe>
+
+<iframe src="/dsc259_final_project/img/plots/step3.2_tvd_permutation_cause.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p><strong>Climate category:</strong> Here the TVD is 0.0371 with a p-value of 0.285, so we fail to reject the null. The ability to report megawatt losses does not vary systematically with the climate zone of the outage.</p>
+
+<iframe src="/dsc259_final_project/img/plots/step3.3_missingness_climate_category.html" width="100%" height="450" frameborder="0"></iframe>
+
+<iframe src="/dsc259_final_project/img/plots/step3.4_tvd_permutation_climate.html" width="100%" height="450" frameborder="0"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Missingness Type</th>
+      <th>Takeaway</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HURRICANE.NAMES</td>
+      <td>Missing by design</td>
+      <td>Names only appear for hurricane‑caused outages.</td>
+    </tr>
+   <tr>
+      <td>DEMAND.LOSS.MW</td>
+      <td>NMAR</td>
+      <td>Reporting depends on utility metering, likely related to the true value.</td>
+    </tr>
+    <tr>
+      <td>DEMAND.LOSS.MW vs. CAUSE.CATEGORY</td>
+      <td>MAR conditional on cause</td>
+      <td>Cause affects whether a loss is reported.</td>
+    </tr>
+    <tr>
+      <td style="padding-right:35px;">DEMAND.LOSS.MW vs. CLIMATE.CATEGORY</td>
+      <td style="padding-right:30px;">MCAR conditional on climate</td>
+      <td>Climate does not influence recording.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Column | Missingness Type | Takeaway |
+| :--- | :--- | :--- |
+| `HURRICANE.NAMES` | Missing by design | Names only appear for hurricane‑caused outages. |
+| `DEMAND.LOSS.MW` | NMAR | Reporting depends on utility metering, likely related to the true value. |
+| `DEMAND.LOSS.MW` vs. `CAUSE.CATEGORY` | MAR conditional on cause | Cause affects whether a loss is reported. |
+| `DEMAND.LOSS.MW` vs. `CLIMATE.CATEGORY` | MCAR conditional on climate | Climate does not influence recording. |
+-->
+<p><br />
+Any imputation strategy for <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> should therefore condition on outage cause but need not adjust for climate.</p>
+
+<div id="hypothesis"></div>
+<h2 id="hypothesis-testing-state-effects-within-a-region">Hypothesis Testing: State Effects Within a Region</h2>
+
+<p>Our exploratory work hinted at geographic variation, but does state identity matter even when the broader grid region is fixed? If so, <code class="language-plaintext highlighter-rouge">U.S._STATE</code> is more than a proxy for NERC region and deserves explicit use in modeling.</p>
+
+<p>We tested this question within the <strong>WECC</strong> (Western Electricity Coordinating Council), the most expansive and geographically diverse NERC region in the dataset.</p>
+
+<h3 id="formulating-the-test">Formulating the Test</h3>
+
+<ul>
+  <li><strong>Null hypothesis:</strong> Mean log‑transformed outage duration is equal across all WECC states.</li>
+  <li><strong>Alternative hypothesis:</strong> At least one state’s mean differs.</li>
+  <li><strong>Method:</strong> One‑way ANOVA on <code class="language-plaintext highlighter-rouge">np.log1p(OUTAGE.DURATION)</code> with <code class="language-plaintext highlighter-rouge">U.S._STATE</code> as the factor. States with fewer than five WECC observations were excluded.</li>
+</ul>
+
+<p>The log transformation mitigates extreme skew and makes residuals more normal, satisfying ANOVA assumptions. The F‑statistic compares between‑state variance to within‑state variance.</p>
+
+<h3 id="outcome">Outcome</h3>
+
+<iframe src="/dsc259_final_project/img/plots/step4.1_duration_by_state_wecc.html" width="100%" height="450" frameborder="0"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:60px;">Source</th>
+      <th style="padding-right:50px;">Sum of Squares</th>
+      <th style="padding-right:60px;">df</th>
+      <th style="padding-right:60px;">F</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U.S._STATE</td>
+      <td>309.05</td>
+      <td>10</td>
+      <td>5.0488</td>
+      <td>0.000001</td>
+    </tr>
+   <tr>
+      <td>Residual</td>
+      <td>2479.11</td>
+      <td>405</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+
+| Source | Sum of Squares | df | F | p-value |
+| :--- | ---: | ---: | ---: | ---: |
+| `U.S._STATE` | 309.05 | 10 | 5.0488 | 0.000001 |
+| Residual | 2479.11 | 405 | | |
+-->
+<p><br />
+The extremely small p-value leads us to reject the null: outage durations within WECC are not homogeneous across states.</p>
+
+<h3 id="interpretation">Interpretation</h3>
+
+<p>California experiences notably long outages, reflecting wildfire‑related pre‑emptive shutoffs, while Utah and Colorado tend toward quicker restorations. State factors therefore contribute additional explanatory power beyond the NERC region alone. This justifies including <code class="language-plaintext highlighter-rouge">U.S._STATE</code> directly in our predictive models.</p>
+
+<div id="prediction"></div>
+<h2 id="framing-a-prediction-problem">Framing a Prediction Problem</h2>
+
+<p>With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>?</p>
+
+<p><strong>Response variable:</strong> the number of customers who lost power. Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.</p>
+
+<h3 id="candidate-features">Candidate Features</h3>
+
+<p>Only variables known or reliably estimable at the start of an event are allowed, avoiding any leakage from future information such as actual duration.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:120px;">Feature</th>
+      <th style="padding-right:75px;">Type</th>
+      <th>Why it's admissible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U.S._STATE</td>
+      <td>Nominal</td>
+      <td>Location is immediately known; state variation matters.</td>
+    </tr>
+     <tr>
+      <td>NERC.REGION</td>
+      <td>Nominal</td>
+      <td>Grid region is fixed per locality.</td>
+    </tr>
+    <tr>
+      <td>CLIMATE.CATEGORY</td>
+      <td>Nominal</td>
+      <td>Climate episode is classified in real time.</td>
+    </tr>
+     <tr>
+      <td>CAUSE.CATEGORY</td>
+      <td>Nominal</td>
+      <td>Initial cause is typically identified quickly.</td>
+    </tr>
+     <tr>
+      <td>ANOMALY.LEVEL</td>
+      <td>Quantitative</td>
+      <td>Pre‑published climate anomaly index.</td>
+    </tr>
+     <tr>
+      <td>POPULATION</td>
+      <td>Quantitative</td>
+      <td>Census data, known in advance.</td>
+    </tr>
+     <tr>
+      <td>POPPCT_URBAN</td>
+      <td>Quantitative</td>
+      <td>Also from prior census.</td>
+    </tr>
+     <tr>
+      <td>is_hurricane</td>
+      <td>Binary</td>
+      <td>Detectable from weather forecasts.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Feature | Type | Why it's admissible |
+| :--- | :--- | :--- |
+| `U.S._STATE` | Nominal | Location is immediately known; state variation matters. |
+| `NERC.REGION` | Nominal | Grid region is fixed per locality. |
+| `CLIMATE.CATEGORY` | Nominal | Climate episode is classified in real time. |
+| `CAUSE.CATEGORY` | Nominal | Initial cause is typically identified quickly. |
+| `ANOMALY.LEVEL` | Quantitative | Pre‑published climate anomaly index. |
+| `POPULATION` | Quantitative | Census data, known in advance. |
+| `POPPCT_URBAN` | Quantitative | Also from prior census. |
+| `is_hurricane` | Binary | Detectable from weather forecasts. |
+-->
+
+<h3 id="evaluation-metric">Evaluation Metric</h3>
+
+<p>We use <strong>RMSE (Root Mean Squared Error)</strong> in the original customer units to assess model performance, as it penalizes large misses more heavily—appropriate since underestimating a major outage has outsized consequences.</p>
+
+<h3 id="traintest-split">Train/Test Split</h3>
+
+<p>After removing rows with missing responses or features, 1,045 observations remain (71.8% of the cleaned dataset). The target is right‑skewed (skewness 6.06), so models will use a log transformation. We allocate 80% of the data for training (836 rows) and hold 209 for testing. All tuning occurs on the training set; the test set stays unseen until final evaluation.</p>
+
+<div id="baseline"></div>
+<h2 id="baseline-model-ridge-regression">Baseline Model: Ridge Regression</h2>
+
+<h3 id="model-choice-and-encoding">Model Choice and Encoding</h3>
+
+<p>Our initial benchmark is a Ridge regression on the log‑transformed <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>. Ridge helps manage the large number of dummy variables produced by one‑hot encoding <code class="language-plaintext highlighter-rouge">U.S._STATE</code> (about 50 columns) by shrinking coefficients toward zero, thus reducing overfitting. The log transformation tames the long right tail of the target.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Encoding</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding-right:50px;">Nominal features (U.S._STATE, NERC.REGION, CLIMATE.CATEGORY, CAUSE.CATEGORY)</td>
+      <td>One‑hot</td>
+    </tr>
+    <tr>
+      <td>Quantitative features (ANOMALY.LEVEL, POPULATION, POPPCT_URBAN)</td>
+      <td>StandardScaler</td>
+    </tr>
+     <tr>
+      <td>is_hurricane</td>
+      <td>Pass through</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Feature | Encoding |
+| :--- | :--- |
+| Nominal features (`U.S._STATE`, `NERC.REGION`, `CLIMATE.CATEGORY`, `CAUSE.CATEGORY`) | One‑hot |
+| Quantitative features (`ANOMALY.LEVEL`, `POPULATION`, `POPPCT_URBAN`) | StandardScaler |
+| `is_hurricane` | Pass through |
+-->
+
+<h3 id="baseline-results">Baseline Results</h3>
+
+<!--
+<iframe src="/dsc259_final_project/img/plots/step6.1_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+-->
+
+<iframe src="/dsc259_final_project/img/plots/step6.2_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:60px;">Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RMSE</td>
+      <td>223,420 customers</td>
+    </tr>
+    <tr>
+      <td>R²</td>
+      <td>-0.0594</td>
+    </tr>
+    <tr>
+      <td>Test mean</td>
+      <td>131,051 customers</td>
+    </tr>
+    <tr>
+      <td>Test std</td>
+      <td>217,593 customers</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Metric | Value |
+| :--- | ---: |
+| RMSE | 223,420 customers |
+| R² | -0.0594 |
+| Test mean | 131,051 customers |
+| Test std | 217,593 customers |
+-->
+
+<p><br />
+The baseline’s RMSE slightly exceeds the test‑set standard deviation, and the negative R² indicates that the model does not outperform a constant mean predictor. In other words, the linear approximation is failing to capture the complex relationships inherent in outage severity.</p>
+
+<h3 id="baseline-shortcomings">Baseline Shortcomings</h3>
+
+<p>Three structural limitations emerge:</p>
+
+<ul>
+  <li><strong>Linearity:</strong> The relationship between features and customer counts is far from linear; Ridge cannot accommodate sharp jumps.</li>
+  <li><strong>Interactions:</strong> Combinations such as “hurricane in a large, urban state” have outsized effects that a purely additive model cannot learn.</li>
+  <li><strong>State heterogeneity:</strong> Ridge imposes a common slope across all states, letting only intercepts vary, which is insufficient when California and Utah behave very differently.</li>
+</ul>
+
+<p>These shortcomings motivate a switch to a more flexible, tree‑based learner and additional feature engineering.</p>
+
+<div id="final-model"></div>
+<h2 id="final-model-histogram-based-gradient-boosting">Final Model: Histogram-based Gradient Boosting</h2>
+
+<h3 id="model-setup">Model Setup</h3>
+
+<p>We adopted a Histogram‑based Gradient Boosting Regressor (HGB) on the log of <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>. ML trees naturally handle nonlinearity and interactions, and boosting focuses subsequent fits on the hardest cases.</p>
+
+<p>Two engineered predictors augment the original feature set:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">log_population</code>:</strong> <code class="language-plaintext highlighter-rouge">log1p(POPULATION)</code> compresses differences between small and large states, making population effects easier to model.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">state_pop_bin</code>:</strong> A categorical variable that labels states as <code class="language-plaintext highlighter-rouge">small</code>, <code class="language-plaintext highlighter-rouge">medium</code>, or <code class="language-plaintext highlighter-rouge">large</code> based on population. This tiered grouping not only aids modeling but also forms the basis for our fairness checks.</li>
+</ul>
+
+<p>Distribution of these bins in the data:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Bin</th>
+      <th style="padding-right:20px;">Total</th>
+      <th style="padding-right:20px;">Train</th>
+      <th>Test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Large</td>
+      <td>595</td>
+      <td>477</td>
+      <td>118</td>
+    </tr>
+    <tr>
+      <td>Medium</td>
+        <td>362</td>
+      <td>289</td>
+      <td>73</td>
+    </tr>
+    <tr>
+      <td>Small</td>
+        <td>88</td>
+      <td>70</td>
+      <td>18</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!--
+| Bin | Total | Train | Test |
+| :--- | ---: | ---: | ---: |
+| Large | 595 | 477 | 118 |
+| Medium | 362 | 289 | 73 |
+| Small | 88 | 70 | 18 |
+-->
+
+<h3 id="hyperparameter-tuning">Hyperparameter Tuning</h3>
+
+<p>We tuned four parameters via 5‑fold cross‑validation on the training set, optimizing RMSE back on the original scale. The search over 81 configurations yielded the following best settings:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Hyperparameter</th>
+      <th style="padding-right:30px;">Chosen Value</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>learning_rate</td>
+      <td>0.5</td>
+      <td>Controls update step size.</td>
+    </tr>
+    <tr>
+      <td>max_depth</td>
+        <td>None</td>
+      <td>Trees grow until leaf constraints apply.</td>
+    </tr>
+    <tr>
+      <td>max_leaf_nodes</td>
+        <td>15</td>
+      <td>Limits tree complexity.</td>
+    </tr>
+<tr>
+      <td>min_samples_leaf</td>
+        <td>20</td>
+      <td>Enforces smoother predictions in small groups.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Hyperparameter | Chosen Value | Purpose |
+| :--- | :--- | :--- |
+| `learning_rate` | 0.05 | Controls update step size. |
+| `max_depth` | None | Trees grow until leaf constraints apply. |
+| `max_leaf_nodes` | 15 | Limits tree complexity. |
+| `min_samples_leaf` | 20 | Enforces smoother predictions in small groups. |
+-->
+
+<p><br />
+The best cross‑validated RMSE was 290,297 customers on the training folds.</p>
+
+<h3 id="diagnostics">Diagnostics</h3>
+
+<p>The predicted vs. actual scatter plot shows tighter clustering around the 45‑degree line, especially for medium‑sized outages, indicating reduced bias compared to the baseline.</p>
+
+<iframe src="/dsc259_final_project/img/plots/step7.1_final_pred_vs_actual.html" width="100%" height="450" frameborder="0"></iframe>
+
+<p>Residuals versus predicted values form a more compact, symmetric band around zero than under Ridge, suggesting better calibration.</p>
+
+<iframe src="/dsc259_final_project/img/plots/step7.2_final_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+
+<h3 id="final-performance">Final Performance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:50px;">Metric</th>
+      <th style="padding-right:30px;">Ridge Baseline</th>
+      <th style="padding-right:30px;">HGB Final</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RMSE</td>
+      <td>223,420</td>
+        <td>213,321</td>
+        <td>-10,099 (4.5% better)</td>
+    </tr>
+    <tr>
+      <td>R²</td>
+       <td>-0.0594</td>
+        <td>0.0343</td>
+        <td>+0.0937</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Metric | Ridge Baseline | HGB Final | Change |
+| :--- | ---: | ---: | ---: |
+| RMSE | 223,420 | 213,321 | -10,099 (4.5% better) |
+| R² | -0.0594 | 0.0343 | +0.0937 |
+-->
+<p><br />
+The final model reduces RMSE by roughly 10,000 customers and pushes R² into positive territory. Although the RMSE remains slightly above the test standard deviation—highlighting the inherent difficulty of the task—these gains show that nonlinear modeling and targeted features can extract useful signal from onset‑time data.</p>
+
+<div id="fairness"></div>
+<h2 id="fairness-analysis">Fairness Analysis</h2>
+
+<h3 id="defining-groups-and-metric">Defining Groups and Metric</h3>
+
+<p>We investigate whether predictive accuracy differs between states of varying population sizes. Using <code class="language-plaintext highlighter-rouge">state_pop_bin</code>, we define:</p>
+
+<ul>
+  <li><strong>Group A (Large States):</strong> average population &gt; 8 million.</li>
+  <li><strong>Group B (Small + Medium States):</strong> average population between 0.6 and 8 million.</li>
+</ul>
+
+<p>Accuracy is measured by RMSE on the test set, computed separately for each group.</p>
+
+<h3 id="hypotheses-and-test">Hypotheses and Test</h3>
+
+<ul>
+  <li><strong>Null:</strong> RMSE(A) = RMSE(B).</li>
+  <li><strong>Alternative:</strong> RMSE(A) ≠ RMSE(B).</li>
+  <li><strong>Statistic:</strong> Observed difference in RMSE between the two groups.</li>
+</ul>
+
+<p>To evaluate this, we perform a two‑sided permutation test with 5,000 iterations, shuffling <code class="language-plaintext highlighter-rouge">state_pop_bin</code> labels across test observations while keeping predictions fixed. This isolates whether the observed gap could arise by chance.</p>
+
+<h3 id="results">Results</h3>
+
+<iframe src="/dsc259_final_project/img/plots/step8.1_permutation_rmse_diff.html" width="100%" height="450" frameborder="0"></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:150px;">Group</th>
+      <th>RMSE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Large states</td>
+      <td>259,518</td>
+    </tr>
+     <tr>
+      <td>Small+Medium states</td>
+      <td>131,077</td>
+    </tr>
+     <tr>
+      <td>Observed gap</td>
+      <td>128,442</td>
+    </tr>
+     <tr>
+      <td>Two‑sided p-value</td>
+      <td>0.8226</td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+| Group | RMSE |
+| :--- | ---: |
+| Large states | 259,518 |
+| Small+Medium states | 131,077 |
+| Observed gap | 128,442 |
+| Two‑sided p-value | 0.8226 |
+-->
+<p><br />
+The high p-value means we cannot reject the null hypothesis. The RMSE difference is consistent with random label assignment given the sample size.</p>
+
+<h3 id="interpretation-1">Interpretation</h3>
+
+<p>This test does not prove the model is universally fair—it merely indicates that the apparent performance gap across population tiers is not statistically significant in this sample. Large states naturally experience more severe outages, inflating their RMSE regardless of model quality. Different fairness criteria or a larger dataset could yield different insights.</p>
+
+<div id="conclusion"></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This analysis walked through a complete pipeline—from raw outage data to a focused prediction problem and an equity check. Several themes emerged:</p>
+
+<ul>
+  <li><strong>State matters:</strong> Even within the same reliability region, outage durations differ by state, justifying state‑level features.</li>
+  <li><strong>Missing data is informative:</strong> <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> is not missing at random and its absence depends on outage cause.</li>
+  <li><strong>Nonlinear modeling helps:</strong> A Histogram‑based Gradient Boosting model with simple population engineering outperforms a Ridge baseline by about 4.5%, albeit the task remains challenging.</li>
+  <li><strong>Equity appears reasonable:</strong> A permutation test found no statistically significant RMSE disparity between large and smaller states, though this conclusion is limited by sample size.</li>
+</ul>
+
+<p>Forecasting outage severity from onset information alone is a hard problem, given that extreme events dominate the tail and are hard to anticipate. Nonetheless, the modest improvement we achieved indicates that location, cause, and population carry actionable signal. Future work could explore richer features, larger datasets, or alternative modeling strategies to further improve early‑warning capabilities for utilities and emergency planners.</p>
+
+                </div>
+                <div style="margin-top: 80px; padding-bottom: 50px; text-align: center;">
+                    <hr class="primary">
+                    <a class="btn btn-primary btn-xl" href='/dsc259_final_project/report/'>Return to Top</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+
+<script>
+    $(document).ready(function(){
+        // Smooth scroll for sidebar links
+        $("a[href^='#']").on('click', function(event) {
+            if (this.hash !== "") {
+                event.preventDefault();
+                var hash = this.hash;
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top - 90
+                }, 800);
+            }
+        });
+
+        // Highlight active sidebar link on scroll
+        $(window).on('scroll', function() {
+            var scrollPos = $(document).scrollTop() + 100;
+            $('div[id]').each(function() {
+                var currLink = $('a[href="#' + $(this).attr('id') + '"]');
+                if ($(this).offset().top <= scrollPos && $(this).offset().top + $(this).height() > scrollPos) {
+                    $('.nav-pills li').removeClass('active');
+                    currLink.parent().addClass('active');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

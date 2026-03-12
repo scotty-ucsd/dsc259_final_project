@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 5 <br>
+                    <small style="color: #222; font-weight: 700;">Framing a Prediction Problem</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="prediction-problem-and-target-variable">Prediction Problem and Target Variable</h2>
+
+<ul>
+  <li>
+    <p>In this section, we transition from exploratory analysis to predictive modeling by identifying a specific variable to forecast.</p>
+  </li>
+  <li>
+    <p>Define your target variable and whether you are performing regression or classification.</p>
+  </li>
+  <li><strong>Prediction Problem:</strong> [Identify whether you are performing a <strong>Binary Classification</strong>, <strong>Multiclass Classification</strong>, or <strong>Regression</strong> task].</li>
+  <li><strong>Target Variable (Response):</strong> <code class="language-plaintext highlighter-rouge">[Insert Variable Name]</code></li>
+  <li><strong>Justification:</strong> We chose this variable because [explain why predicting this specific outcome is valuable or interesting in the context of your dataset].</li>
+</ul>
+
+<hr />
+
+<h2 id="evaluation-metric-and-performance-threshold">Evaluation Metric and Performance Threshold</h2>
+
+<p>To assess how well our model performs, we must select a metric that aligns with our prediction goals and account for the distribution of our target variable.</p>
+
+<ul>
+  <li><strong>Selected Metric:</strong> [e.g., Accuracy, F1-Score, R-squared, or RMSE]</li>
+  <li>
+    <p><strong>Justification:</strong> [e.g., We chose F1-Score because our classes are imbalanced, and we want to balance precision and recall, or we chose RMSE because it penalizes large errors in our numerical predictions].</p>
+  </li>
+  <li>
+    <p><strong>Baseline Expectation:</strong> [Optional: Briefly mention what a “naive” prediction might look like, such as always predicting the mean or the majority class].</p>
+  </li>
+  <li>
+    <h2 id="insert-images">insert images</h2>
+  </li>
+</ul>
+
+<h2 id="features-and-information-timing">Features and Information Timing</h2>
+
+<p>When building a predictive model, it is crucial to ensure that the features used would actually be known at the time the prediction is made.</p>
+
+<ul>
+  <li><strong>Features Used:</strong> [List 2-3 key features you plan to use].</li>
+  <li><strong>Information Availability:</strong> At the time of prediction, we would know [describe the state of the data], so we are excluding variables like [mention any variables that would cause data leakage] to ensure our model is realistic.</li>
+</ul>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-is-your-prediction-problem-a-classification-or-regression-task-and-what-specific-variable-are-you-trying-to-predict">1. Is your prediction problem a classification or regression task, and what specific variable are you trying to predict?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="2-which-evaluation-metric-are-you-using-and-why-is-it-more-appropriate-for-your-specific-problem-than-a-standard-metric-like-accuracy">2. Which evaluation metric are you using, and why is it more appropriate for your specific problem than a standard metric like accuracy?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="3-what-information-would-you-have-at-the-time-of-prediction-are-there-any-variables-you-must-exclude-to-avoid-data-leakage">3. What information would you have “at the time of prediction”? Are there any variables you must exclude to avoid data leakage?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/hypothesis/">Back to Step 4</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/baseline/">To Step 6</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>

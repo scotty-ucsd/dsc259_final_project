@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Following the data science lifecycle for major power outage risk in the U.S.">
+    <meta name="author" content="Scotty, Hans, and Jillian">
+
+    <title>DSC259 Final Project: Power Outages</title>
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+
+    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+                <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="page-section" id="content" style="padding-top: 100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">
+                    Step 7 <br>
+                    <small style="color: #222; font-weight: 700;">Final Model</small>
+                </h2>
+                <hr class="primary">
+
+                <div class="text-left" style="margin-top: 30px;">
+                    <h2 id="feature-engineering">Feature Engineering</h2>
+<ul>
+  <li>
+    <p>Detail your feature engineering and hyperparameter tuning results.</p>
+  </li>
+  <li>
+    <p>In this phase, we move beyond the raw data by creating new features designed to capture more complex relationships within our dataset.</p>
+  </li>
+  <li><strong>New Feature 1:</strong> <code class="language-plaintext highlighter-rouge">[Feature Name, e.g., 'Log-Transformed Income']</code></li>
+  <li>
+    <p><strong>Intuition:</strong> [Explain why this helps, e.g., ‘Normalizing the distribution of income helps the linear model better account for extreme outliers.’]</p>
+  </li>
+  <li><strong>New Feature 2:</strong> <code class="language-plaintext highlighter-rouge">[Feature Name, e.g., 'Standardized Text Length']</code></li>
+  <li><strong>Intuition:</strong> [Explain why this helps, e.g., ‘Capturing the complexity of user reviews as a numerical value provides a proxy for engagement level.’]</li>
+</ul>
+
+<hr />
+
+<h2 id="model-selection-and-hyperparameter-tuning">Model Selection and Hyperparameter Tuning</h2>
+
+<p>We selected the <code class="language-plaintext highlighter-rouge">[Algorithm Name, e.g., Random Forest Classifier]</code> and used <strong>$k$-fold cross-validation</strong> to identify the most effective hyperparameters.</p>
+
+<ul>
+  <li><strong>Hyperparameters Tested:</strong> <code class="language-plaintext highlighter-rouge">[List parameters, e.g., 'max_depth': [5, 10, 15], 'n_estimators': [50, 100, 200]]</code></li>
+  <li><strong>Selection Method:</strong> [e.g., <code class="language-plaintext highlighter-rouge">GridSearchCV</code> or <code class="language-plaintext highlighter-rouge">RandomizedSearchCV</code>]</li>
+  <li><strong>Optimal Hyperparameters:</strong> <code class="language-plaintext highlighter-rouge">[Insert best parameters found]</code></li>
+</ul>
+
+<hr />
+
+<h2 id="final-performance-comparison">Final Performance Comparison</h2>
+
+<p>The final model was evaluated on the held-out test set to determine the actual improvement over our baseline.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Evaluation Metric (<code class="language-plaintext highlighter-rouge">[Metric Name]</code>)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Baseline Model</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">[Baseline Score]</code></td>
+    </tr>
+    <tr>
+      <td><strong>Final Model</strong></td>
+      <td><strong><code class="language-plaintext highlighter-rouge">[Final Score]</code></strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Quantifying Improvement:</strong> [Describe how much better the final model is compared to the baseline. For example, ‘The final model improved our F1-score by 12% by better capturing non-linear interactions through engineered features.’]</li>
+</ul>
+
+<hr />
+
+<h2 id="checkpoint-questions">Checkpoint Questions</h2>
+
+<h4 id="1-describe-the-new-features-you-engineered-and-why-you-expected-them-to-improve-your-models-performance">1. Describe the new features you engineered and why you expected them to improve your model’s performance.</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="2-what-algorithm-did-you-use-for-your-final-model-and-what-were-the-optimal-hyperparameters-identified-during-cross-validation">2. What algorithm did you use for your final model, and what were the optimal hyperparameters identified during cross-validation?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+<h4 id="3-how-did-your-final-models-performance-on-the-test-set-compare-to-the-baseline-model-what-does-this-tell-you-about-the-effectiveness-of-your-feature-engineering-and-tuning">3. How did your final model’s performance on the test set compare to the baseline model? What does this tell you about the effectiveness of your feature engineering and tuning?</h4>
+
+<ul>
+  <li>[Placeholder for student answer]</li>
+</ul>
+
+                </div>
+
+                <div style="margin-top: 80px; padding-bottom: 50px;">
+                    <hr class="primary">
+                    <ul class="list-inline">
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/baseline/">Back to Step 6</a></li>
+                        
+
+                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+
+                        
+                        
+                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/fairness/">To Step 8</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" style="background-color: #f8f8f8; padding: 40px 0; border-top: 1px solid #eee;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <p class="text-muted" style="margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">
+                    DSC259: Final Project
+                </p>
+                <ul class="list-inline" style="margin-bottom: 0;">
+                    <li style="padding: 0 15px;">
+                        <a href="mailto:rsrogers@ucsd.edu" class="text-muted" style="text-decoration: none;">
+                            <i class="fa fa-envelope fa-fw"></i> rsrogers@ucsd.edu
+                        </a>
+                    </li>
+                    <li style="padding: 0 15px;">
+                        <a href="https://github.com/scotty-ucsd" class="text-muted" style="text-decoration: none;" target="_blank">
+                            <i class="fa fa-github fa-fw"></i> scotty-ucsd
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.fittext.js"></script>
+<script src="js/wow.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/creative.js"></script>
+
+</body>
+</html>
