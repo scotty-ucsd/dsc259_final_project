@@ -30,6 +30,7 @@ This metric is our proxy for public impact. Large outages ripple through communi
 
 ---
 
+
 <div id="roadmap"></div>
 ### Roadmap
 
@@ -95,7 +96,7 @@ Seasonal analysis using month‑grouped box plots indicates that typical duratio
 This steady background suggests that predicting `CUSTOMERS.AFFECTED` will require factors beyond simple climactic timing.
 
 <div id="missingness"></div>
-## Understanding Missing Data
+## Assessment of Missingness
 
 ### Mechanisms Behind Missingness
 
