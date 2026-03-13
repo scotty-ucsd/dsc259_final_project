@@ -53,7 +53,7 @@
                     <li><a href="#introduction">Introduction</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
                             <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
-                            <li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>
+                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>-->
                         </ul>
                     </li>
                     <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>
@@ -61,9 +61,15 @@
                             <li><a href="#data-cleaning" style="padding-left: 20px; color: #888;">Data Cleaning</a></li>
                             <li><a href="#univariate-analysis" style="padding-left: 20px; color: #888;">Univariate Analysis</a></li>
                             <li><a href="#bivariate-analysis" style="padding-left: 20px; color: #888;">Bivariate Analysis</a></li>
+                            <li><a href="#interesting-aggregates" style="padding-left: 20px; color: #888;">Interesting Aggregates</a></li>
                         </ul>
                     </li>
-                    <li><a href="#missingness">Assessment of Missingness</a></li>
+                    <li><a href="#missingness">Assessment of Missingness</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#nmar-analysis" style="padding-left: 20px; color: #888;">NMAR Analysis</a></li>
+                            <li><a href="#missingness-dependency" style="padding-left: 20px; color: #888;">Missingness Dependency</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#hypothesis">Hypothesis Testing</a></li>
                     <li><a href="#prediction">Framing a Prediction Problem</a></li>
                     <li><a href="#baseline">Baseline Model</a></li>
@@ -75,8 +81,7 @@
             <!-- Main report content -->
             <div class="col-lg-offset-2 col-md-offset-3 col-lg-8 col-md-9">
                 <div class="report-body" style="padding: 20px 40px;">
-                    <div id="introduction"></div>
-<h2 id="introduction">Introduction</h2>
+                    <h2 id="introduction" style="scroll-margin-top: 60px;">Introduction</h2>
 
 <p>The dataset on <strong>Major Power Outage Risks in the U.S.</strong>, assembled by Purdue University’s LASCI group, chronicles 1,534 severe grid failures that occurred across the continental United States between January 2000 and July 2016. Each entry conveys far more than a date: it records climate indicators, geographic and economic context at the state level, and demographic characteristics that together paint a rich portrait of the conditions surrounding each disruption.</p>
 
@@ -84,8 +89,7 @@
 
 <hr />
 
-<div id="question-identification"></div>
-<h3 id="question-identification">Question Identification</h3>
+<h3 id="question-identification" style="scroll-margin-top: 60px;">Question Identification</h3>
 
 <p>At the heart of this study lies a practical question:</p>
 
@@ -97,7 +101,7 @@
 
 <hr />
 
-<h3 id="dataset-overview">Dataset Overview</h3>
+<h3 id="dataset_overview" style="scroll-margin-top: 60px;">Dataset Overview</h3>
 
 <div style="margin-left: 15px;">
 <br />
@@ -151,8 +155,7 @@
 
 </div>
 
-<div id="roadmap"></div>
-<h3 id="roadmap">Roadmap</h3>
+<h3 id="roadmap" style="scroll-margin-top: 60px;">Roadmap</h3>
 
 <p>We approach the question through a sequence of analytical stages:</p>
 
@@ -166,11 +169,9 @@
 
 <p>Each section builds on the last, turning insights from exploration into modeling choices and evaluation criteria.</p>
 
-<div id="data-cleaning-and-EDA"></div>
-<h2 id="data-cleaning-and-exploratory-analysis">Data Cleaning and Exploratory Analysis</h2>
+<h2 id="data-cleaning-and-EDA" style="scroll-margin-top: 60px;">Data Cleaning and Exploratory Analysis</h2>
 
-<div id="data-cleaning"></div>
-<h3 id="data-cleaning">Data Cleaning</h3>
+<h3 id="data-cleaning" style="scroll-margin-top: 60px;">Data Cleaning</h3>
 
 <p>The source file was an Excel workbook with metadata rows and redundant columns that had to be stripped. After converting to CSV and loading into a DataFrame, we removed eight duplicates for a working set of 1,526 unique events. The dataset’s 56 columns were sorted into seven thematic groups—identifiers, temporal data, spatial and climate attributes, outage impact and cause, electricity economics, state economics, and demographics/land use—so that we could tackle each group consistently.</p>
 
@@ -187,13 +188,125 @@
   <li>Setting population density nulls for the District of Columbia to zero rather than discarding the row.</li>
 </ol>
 
-<p>After cleaning, the DataFrame contains 1,456 observations. The columns most affected by remaining gaps are <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> (about 46% missing) and <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code> (about 29%), topics we revisit in the next section.</p>
+<p><br />
+Head of cleaned dataframe (select columns, discussed or used for prediction below):</p>
+
+<table>
+  <thead>
+    <tr style="text-align: left;">
+      <th style="padding-right:10px;">index</th>
+      <th style="padding-right:15px;">U.S._STATE</th>
+      <th style="padding-right:15px;">NERC.REGION</th>
+      <th style="padding-right:15px;">ANOMALY.LEVEL</th>
+      <th style="padding-right:15px;">CLIMATE.CATEGORY</th>
+      <th style="padding-right:15px;">CAUSE.CATEGORY</th>
+      <th style="padding-right:15px;">CAUSE.CATEGORY.DETAIL</th>
+      <th style="padding-right:15px;">HURRICANE.NAMES</th>
+      <th style="padding-right:15px;">DEMAND.LOSS.MW</th>
+      <th style="padding-right:15px;">CUSTOMERS.AFFECTED</th>
+      <th style="padding-right:15px;">POPULATION</th>
+      <th style="padding-right:15px;">POPPCT_URBAN</th>
+      <th style="padding-right:15px;">outage_start_dt</th>
+      <th style="padding-right:15px;">outage_restoration_dt</th>
+      <th style="padding-right:15px;">is_hurricane</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Minnesota</td>
+      <td>MRO</td>
+      <td>-0.3</td>
+      <td>normal</td>
+      <td>severe weather</td>
+      <td>severe weather unknown</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>70000.0</td>
+      <td>5348119</td>
+      <td>73.27</td>
+      <td>2011-07-01 17:00:00</td>
+      <td>2011-07-03 20:00:00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Minnesota</td>
+      <td>MRO</td>
+      <td>-0.1</td>
+      <td>normal</td>
+      <td>intentional attack</td>
+      <td>vandalism</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5457125</td>
+      <td>73.27</td>
+      <td>2014-05-11 18:38:00</td>
+      <td>2014-05-11 18:39:00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Minnesota</td>
+      <td>MRO</td>
+      <td>-1.5</td>
+      <td>cold</td>
+      <td>severe weather</td>
+      <td>heavy wind</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>70000.0</td>
+      <td>5310903</td>
+      <td>73.27</td>
+      <td>2010-10-26 20:00:00</td>
+      <td>2010-10-28 22:00:00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Minnesota</td>
+      <td>MRO</td>
+      <td>-0.1</td>
+      <td>normal</td>
+      <td>severe weather</td>
+      <td>thunderstorm</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>68200.0</td>
+      <td>5380443</td>
+      <td>73.27</td>
+      <td>2012-06-19 04:30:00</td>
+      <td>2012-06-20 23:00:00</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Minnesota</td>
+      <td>MRO</td>
+      <td>1.2</td>
+      <td>warm</td>
+      <td>severe weather</td>
+      <td>severe weather unknown</td>
+      <td>NaN</td>
+      <td>250.0</td>
+      <td>250000.0</td>
+      <td>5489594</td>
+      <td>73.27</td>
+      <td>2015-07-18 02:00:00</td>
+      <td>2015-07-19 07:00:00</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+<br />
+After cleaning, the DataFrame contains 1,456 observations. The columns most affected by remaining gaps are <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> (about 46% missing) and <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code> (about 29%), topics we revisit in the next section.</p>
 
 <hr />
 
-<h3 id="exploratory-analysis">Exploratory Analysis</h3>
-
-<h4 id="univariate-patterns">Univariate Patterns</h4>
+<h3 id="univariate-analysis" style="scroll-margin-top: 60px;">Univariate Analysis</h3>
 
 <p>The distribution of outages by NERC reliability region reveals how physical grid structure, not political boundaries, governs outage frequency.</p>
 
@@ -207,7 +320,7 @@
 
 <hr />
 
-<h4 id="bivariate-relationships">Bivariate Relationships</h4>
+<h3 id="bivariate-analysis" style="scroll-margin-top: 60px;">Bivariate Analysis</h3>
 
 <p>A log‑scale box plot of outage duration by climate zone shows that median restoration times are fairly consistent across environments, but extremes—multi‑day outages—are more common in the Northeast and South.</p>
 
@@ -219,10 +332,140 @@
 
 <p>This steady background suggests that predicting <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code> will require factors beyond simple climactic timing.</p>
 
-<div id="missingness"></div>
-<h2 id="assessment-of-missingness">Assessment of Missingness</h2>
+<h3 id="interesting-aggregates" style="scroll-margin-top: 60px;">Interesting Aggregates</h3>
 
-<h3 id="mechanisms-behind-missingness">Mechanisms Behind Missingness</h3>
+<p>Below, we aggregate the data into a pivot table comparing outage duration across cause categories and climate regions. This helps identify whether certain types of disruptions are associated with longer recovery times in particular environmental contexts.</p>
+
+<table>
+  <thead>
+    <tr style="text-align: left;">
+      <th style="padding-right:50px;">CAUSE.CATEGORY</th>
+      <th style="padding-right:0px;">equipment failure</th>
+      <th style="padding-right:0px;">fuel supply emergency</th>
+      <th style="padding-right:0px;">intentional attack</th>
+      <th style="padding-right:40px;">islanding</th>
+      <th style="padding-right:0px;">public appeal</th>
+      <th style="padding-right:0px;">severe weather</th>
+      <th style="padding-right:0px;">system operability disruption</th>
+    </tr>
+    <tr>
+      <th>CLIMATE.REGION</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Central</th>
+      <td>149.0</td>
+      <td>7500.5</td>
+      <td>50.0</td>
+      <td>96.0</td>
+      <td>1410.0</td>
+      <td>1687.5</td>
+      <td>65.0</td>
+    </tr>
+    <tr>
+      <th>East North Central</th>
+      <td>761.0</td>
+      <td>13564.0</td>
+      <td>648.5</td>
+      <td>1.0</td>
+      <td>733.0</td>
+      <td>4050.0</td>
+      <td>2694.0</td>
+    </tr>
+    <tr>
+      <th>Hawaii Region</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>955.0</td>
+      <td>237.0</td>
+    </tr>
+    <tr>
+      <th>Northeast</th>
+      <td>159.0</td>
+      <td>12240.0</td>
+      <td>1.0</td>
+      <td>881.0</td>
+      <td>2760.0</td>
+      <td>3189.0</td>
+      <td>191.0</td>
+    </tr>
+    <tr>
+      <th>Northwest</th>
+      <td>702.0</td>
+      <td>1.0</td>
+      <td>74.0</td>
+      <td>21.0</td>
+      <td>898.0</td>
+      <td>3507.0</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <th>South</th>
+      <td>227.0</td>
+      <td>20160.0</td>
+      <td>100.0</td>
+      <td>493.5</td>
+      <td>422.0</td>
+      <td>2100.0</td>
+      <td>373.0</td>
+    </tr>
+    <tr>
+      <th>Southeast</th>
+      <td>308.5</td>
+      <td>NaN</td>
+      <td>95.5</td>
+      <td>NaN</td>
+      <td>1337.0</td>
+      <td>1355.0</td>
+      <td>110.0</td>
+    </tr>
+    <tr>
+      <th>Southwest</th>
+      <td>35.0</td>
+      <td>76.0</td>
+      <td>56.0</td>
+      <td>2.0</td>
+      <td>2275.0</td>
+      <td>2140.0</td>
+      <td>284.0</td>
+    </tr>
+    <tr>
+      <th>West</th>
+      <td>269.0</td>
+      <td>882.5</td>
+      <td>108.0</td>
+      <td>128.5</td>
+      <td>420.0</td>
+      <td>975.5</td>
+      <td>199.0</td>
+    </tr>
+    <tr>
+      <th>West North Central</th>
+      <td>61.0</td>
+      <td>NaN</td>
+      <td>0.5</td>
+      <td>56.0</td>
+      <td>439.5</td>
+      <td>83.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="missingness" style="scroll-margin-top: 60px;">Assessment of Missingness</h2>
+
+<h3 id="nmar-analysis" style="scroll-margin-top: 60px;">NMAR Analysis</h3>
 
 <p>Two variables bear careful scrutiny: <code class="language-plaintext highlighter-rouge">HURRICANE.NAMES</code> and <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code>.</p>
 
@@ -230,7 +473,7 @@
 
 <p><strong><code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code></strong> is different. Nearly half the entries are blank, even though every outage should theoretically have a megawatt loss. Smaller utilities, especially in rural areas, often lack SCADA metering needed to quantify peak demand lost. Consequently, the absence of a value likely correlates with the unobserved magnitude itself: minor outages are less likely to be measured. This reasoning places <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> in the <em>not missing at random</em> (NMAR) category.</p>
 
-<h3 id="testing-conditional-dependencies">Testing Conditional Dependencies</h3>
+<h3 id="missingness-dependency" style="scroll-margin-top: 60px;">Missingness Dependency</h3>
 
 <p>To refine our understanding, we examined whether the missingness of <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> depends on two observed categorical features: <code class="language-plaintext highlighter-rouge">CAUSE.CATEGORY</code> and <code class="language-plaintext highlighter-rouge">CLIMATE.CATEGORY</code>. Each test used the Total Variation Distance (TVD) statistic with 1,000 permutations.</p>
 
@@ -289,8 +532,7 @@
 <p><br />
 Any imputation strategy for <code class="language-plaintext highlighter-rouge">DEMAND.LOSS.MW</code> should therefore condition on outage cause but need not adjust for climate.</p>
 
-<div id="hypothesis"></div>
-<h2 id="hypothesis-testing-state-effects-within-a-region">Hypothesis Testing: State Effects Within a Region</h2>
+<h2 id="hypothesis" style="scroll-margin-top: 60px;">Hypothesis Testing: State Effects Within a Region</h2>
 
 <p>Our exploratory work hinted at geographic variation, but does state identity matter even when the broader grid region is fixed? If so, <code class="language-plaintext highlighter-rouge">U.S._STATE</code> is more than a proxy for NERC region and deserves explicit use in modeling.</p>
 
@@ -350,8 +592,7 @@ The extremely small p-value leads us to reject the null: outage durations within
 
 <p>California experiences notably long outages, reflecting wildfire‑related pre‑emptive shutoffs, while Utah and Colorado tend toward quicker restorations. State factors therefore contribute additional explanatory power beyond the NERC region alone. This justifies including <code class="language-plaintext highlighter-rouge">U.S._STATE</code> directly in our predictive models.</p>
 
-<div id="prediction"></div>
-<h2 id="framing-a-prediction-problem">Framing a Prediction Problem</h2>
+<h2 id="prediction" style="scroll-margin-top: 60px;">Framing a Prediction Problem</h2>
 
 <p>With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>?</p>
 
@@ -434,8 +675,7 @@ The extremely small p-value leads us to reject the null: outage durations within
 
 <p>After removing rows with missing responses or features, 1,045 observations remain (71.8% of the cleaned dataset). The target is right‑skewed (skewness 6.06), so models will use a log transformation. We allocate 80% of the data for training (836 rows) and hold 209 for testing. All tuning occurs on the training set; the test set stays unseen until final evaluation.</p>
 
-<div id="baseline"></div>
-<h2 id="baseline-model-ridge-regression">Baseline Model: Ridge Regression</h2>
+<h2 id="baseline" style="scroll-margin-top: 60px;">Baseline Model: Ridge Regression</h2>
 
 <h3 id="model-choice-and-encoding">Model Choice and Encoding</h3>
 
@@ -531,8 +771,7 @@ The baseline’s RMSE slightly exceeds the test‑set standard deviation, and th
 
 <p>These shortcomings motivate a switch to a more flexible, tree‑based learner and additional feature engineering.</p>
 
-<div id="final-model"></div>
-<h2 id="final-model-histogram-based-gradient-boosting">Final Model: Histogram-based Gradient Boosting</h2>
+<h2 id="final-model" style="scroll-margin-top: 60px;">Final Model: Histogram-based Gradient Boosting</h2>
 
 <h3 id="model-setup">Model Setup</h3>
 
@@ -681,8 +920,7 @@ The best cross‑validated RMSE was 290,297 customers on the training folds.</p>
 <p><br />
 The final model reduces RMSE by roughly 10,000 customers and pushes R² into positive territory. Although the RMSE remains slightly above the test standard deviation—highlighting the inherent difficulty of the task—these gains show that nonlinear modeling and targeted features can extract useful signal from onset‑time data.</p>
 
-<div id="fairness"></div>
-<h2 id="fairness-analysis">Fairness Analysis</h2>
+<h2 id="fairness" style="scroll-margin-top: 60px;">Fairness Analysis</h2>
 
 <h3 id="defining-groups-and-metric">Defining Groups and Metric</h3>
 
@@ -751,8 +989,7 @@ The high p-value means we cannot reject the null hypothesis. The RMSE difference
 
 <p>This test does not prove the model is universally fair—it merely indicates that the apparent performance gap across population tiers is not statistically significant in this sample. Large states naturally experience more severe outages, inflating their RMSE regardless of model quality. Different fairness criteria or a larger dataset could yield different insights.</p>
 
-<div id="conclusion"></div>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion" style="scroll-margin-top: 60px;">Conclusion</h2>
 
 <p>This analysis walked through a complete pipeline—from raw outage data to a focused prediction problem and an equity check. Several themes emerged:</p>
 

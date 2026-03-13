@@ -53,7 +53,7 @@
                     <li><a href="#introduction">Introduction</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
                             <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
-                            <li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>
+                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>-->
                         </ul>
                     </li>
                     <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>
@@ -61,9 +61,15 @@
                             <li><a href="#data-cleaning" style="padding-left: 20px; color: #888;">Data Cleaning</a></li>
                             <li><a href="#univariate-analysis" style="padding-left: 20px; color: #888;">Univariate Analysis</a></li>
                             <li><a href="#bivariate-analysis" style="padding-left: 20px; color: #888;">Bivariate Analysis</a></li>
+                            <li><a href="#interesting-aggregates" style="padding-left: 20px; color: #888;">Interesting Aggregates</a></li>
                         </ul>
                     </li>
-                    <li><a href="#missingness">Assessment of Missingness</a></li>
+                    <li><a href="#missingness">Assessment of Missingness</a>
+                        <ul class="nav nav-stacked" style="font-size: 12px;">
+                            <li><a href="#nmar-analysis" style="padding-left: 20px; color: #888;">NMAR Analysis</a></li>
+                            <li><a href="#missingness-dependency" style="padding-left: 20px; color: #888;">Missingness Dependency</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#hypothesis">Hypothesis Testing</a></li>
                     <li><a href="#prediction">Framing a Prediction Problem</a></li>
                     <li><a href="#baseline">Baseline Model</a></li>
