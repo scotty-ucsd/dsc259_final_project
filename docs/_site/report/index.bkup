@@ -53,7 +53,7 @@
                     <li><a href="#introduction">Introduction</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
                             <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
-                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>-->
+                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li> maybe keep to sub-steps in instructions-->
                         </ul>
                     </li>
                     <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>

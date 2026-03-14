@@ -521,7 +521,7 @@ The log transformation mitigates extreme skew and makes residuals more normal, s
 | Residual | 2479.11 | 405 | | |
 -->
 \
-The extremely small p-value leads us to reject the null: outage durations within WECC are not homogeneous across states.
+The extremely small p-value leads us to reject the null hypothesis: outage durations within WECC are not homogeneous across states.
 
 ### Interpretation
 
@@ -532,7 +532,7 @@ California experiences notably long outages, reflecting wildfire‑related pre�
 
 With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict `CUSTOMERS.AFFECTED`?
 
-**Response variable:** the number of customers who lost power. Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
+**Response variable:** the number of customers who lost power (i.e. the values in column `CUSTOMERS.AFFECTED`). Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
 
 ### Candidate Features
 
@@ -585,7 +585,7 @@ Only variables known or reliably estimable at the start of an event are allowed,
     </tr>
      <tr>
       <td>is_hurricane</td>
-      <td>Binary</td>
+      <td style="padding-right:50px;">Binary categorical</td>
       <td>Detectable from weather forecasts.</td>
     </tr>
   </tbody>
@@ -624,23 +624,36 @@ Our initial benchmark is a Ridge regression on the log‑transformed `CUSTOMERS.
 <table>
   <thead>
     <tr>
-      <th>Feature</th>
+      <th>Feature Type</th>
       <th>Encoding</th>
+      <th>Number of Features of This Type</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="padding-right:50px;">Nominal features (U.S._STATE, NERC.REGION, CLIMATE.CATEGORY, CAUSE.CATEGORY)</td>
       <td>One‑hot</td>
+      <td style="text-align:center;">4</td>
     </tr>
     <tr>
       <td>Quantitative features (ANOMALY.LEVEL, POPULATION, POPPCT_URBAN)</td>
-      <td>StandardScaler</td>
+      <td style="padding-right:50px;">StandardScaler</td>
+      <td style="text-align:center;">3</td>
+    </tr>
+    <tr>
+      <td>Binary categorical feature (is_hurricane)</td>
+      <td>Pass-through (0/1)</td>
+      <td style="text-align:center;">1</td>
     </tr>
      <tr>
-      <td>is_hurricane</td>
-      <td>Pass through</td>
+      <td>Ordinal features (None)</td>
+      <td>OrdinalEncoder</td>
+      <td style="text-align:center;">0</td>
     </tr>
+    <tr class="total-row">
+  <td colspan="2"><strong>Total</strong></td>
+  <td style="text-align:center;"><strong>8</strong></td>
+</tr>
   </tbody>
 </table>
 
