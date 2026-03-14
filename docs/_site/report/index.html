@@ -53,7 +53,7 @@
                     <li><a href="#introduction">Introduction</a>
                         <ul class="nav nav-stacked" style="font-size: 12px;">
                             <li><a href="#question-identification" style="padding-left: 20px; color: #888;">Question Identification</a></li>
-                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li>-->
+                            <!--<li><a href="#roadmap" style="padding-left: 20px; color: #888;">Roadmap</a></li> maybe keep to sub-steps in instructions-->
                         </ul>
                     </li>
                     <li><a href="#data-cleaning-and-EDA">Data Cleaning and Exploratory Data Analysis</a>
@@ -586,7 +586,7 @@ Any imputation strategy for <code class="language-plaintext highlighter-rouge">D
 | Residual | 2479.11 | 405 | | |
 -->
 <p><br />
-The extremely small p-value leads us to reject the null: outage durations within WECC are not homogeneous across states.</p>
+The extremely small p-value leads us to reject the null hypothesis: outage durations within WECC are not homogeneous across states.</p>
 
 <h3 id="interpretation">Interpretation</h3>
 
@@ -596,7 +596,7 @@ The extremely small p-value leads us to reject the null: outage durations within
 
 <p>With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>?</p>
 
-<p><strong>Response variable:</strong> the number of customers who lost power. Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.</p>
+<p><strong>Response variable:</strong> the number of customers who lost power (i.e. the values in column <code class="language-plaintext highlighter-rouge">CUSTOMERS.AFFECTED</code>). Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.</p>
 
 <h3 id="candidate-features">Candidate Features</h3>
 
@@ -648,7 +648,7 @@ The extremely small p-value leads us to reject the null: outage durations within
     </tr>
      <tr>
       <td>is_hurricane</td>
-      <td>Binary</td>
+      <td style="padding-right:50px;">Binary categorical</td>
       <td>Detectable from weather forecasts.</td>
     </tr>
   </tbody>
@@ -684,23 +684,36 @@ The extremely small p-value leads us to reject the null: outage durations within
 <table>
   <thead>
     <tr>
-      <th>Feature</th>
+      <th>Feature Type</th>
       <th>Encoding</th>
+      <th>Number of Features of This Type</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="padding-right:50px;">Nominal features (U.S._STATE, NERC.REGION, CLIMATE.CATEGORY, CAUSE.CATEGORY)</td>
       <td>One‑hot</td>
+      <td style="text-align:center;">4</td>
     </tr>
     <tr>
       <td>Quantitative features (ANOMALY.LEVEL, POPULATION, POPPCT_URBAN)</td>
-      <td>StandardScaler</td>
+      <td style="padding-right:50px;">StandardScaler</td>
+      <td style="text-align:center;">3</td>
+    </tr>
+    <tr>
+      <td>Binary categorical feature (is_hurricane)</td>
+      <td>Pass-through (0/1)</td>
+      <td style="text-align:center;">1</td>
     </tr>
      <tr>
-      <td>is_hurricane</td>
-      <td>Pass through</td>
+      <td>Ordinal features (None)</td>
+      <td>OrdinalEncoder</td>
+      <td style="text-align:center;">0</td>
     </tr>
+    <tr class="total-row">
+  <td colspan="2"><strong>Total</strong></td>
+  <td style="text-align:center;"><strong>8</strong></td>
+</tr>
   </tbody>
 </table>
 
