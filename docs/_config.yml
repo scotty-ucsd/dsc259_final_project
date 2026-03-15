@@ -12,3 +12,6 @@ github_username: "scotty-ucsd"
 markdown: kramdown
 kramdown:
   math_engine: mathjax
+
+# Theme
+theme: jekyll-theme-minimal
