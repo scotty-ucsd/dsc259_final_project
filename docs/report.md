@@ -119,115 +119,116 @@ Key transformation steps included:
 
 \
 Head of cleaned dataframe (select columns, discussed or used for prediction below):
-
-<table>
-  <thead>
-    <tr style="text-align: left;">
-      <th style="padding-right:10px;">index</th>
-      <th style="padding-right:15px;">U.S._STATE</th>
-      <th style="padding-right:15px;">NERC.REGION</th>
-      <th style="padding-right:15px;">ANOMALY.LEVEL</th>
-      <th style="padding-right:15px;">CLIMATE.CATEGORY</th>
-      <th style="padding-right:15px;">CAUSE.CATEGORY</th>
-      <th style="padding-right:15px;">CAUSE.CATEGORY.DETAIL</th>
-      <th style="padding-right:15px;">HURRICANE.NAMES</th>
-      <th style="padding-right:15px;">DEMAND.LOSS.MW</th>
-      <th style="padding-right:15px;">CUSTOMERS.AFFECTED</th>
-      <th style="padding-right:15px;">POPULATION</th>
-      <th style="padding-right:15px;">POPPCT_URBAN</th>
-      <th style="padding-right:15px;">outage_start_dt</th>
-      <th style="padding-right:15px;">outage_restoration_dt</th>
-      <th style="padding-right:15px;">is_hurricane</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Minnesota</td>
-      <td>MRO</td>
-      <td>-0.3</td>
-      <td>normal</td>
-      <td>severe weather</td>
-      <td>severe weather unknown</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>70000.0</td>
-      <td>5348119</td>
-      <td>73.27</td>
-      <td>2011-07-01 17:00:00</td>
-      <td>2011-07-03 20:00:00</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Minnesota</td>
-      <td>MRO</td>
-      <td>-0.1</td>
-      <td>normal</td>
-      <td>intentional attack</td>
-      <td>vandalism</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>5457125</td>
-      <td>73.27</td>
-      <td>2014-05-11 18:38:00</td>
-      <td>2014-05-11 18:39:00</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Minnesota</td>
-      <td>MRO</td>
-      <td>-1.5</td>
-      <td>cold</td>
-      <td>severe weather</td>
-      <td>heavy wind</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>70000.0</td>
-      <td>5310903</td>
-      <td>73.27</td>
-      <td>2010-10-26 20:00:00</td>
-      <td>2010-10-28 22:00:00</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Minnesota</td>
-      <td>MRO</td>
-      <td>-0.1</td>
-      <td>normal</td>
-      <td>severe weather</td>
-      <td>thunderstorm</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>68200.0</td>
-      <td>5380443</td>
-      <td>73.27</td>
-      <td>2012-06-19 04:30:00</td>
-      <td>2012-06-20 23:00:00</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Minnesota</td>
-      <td>MRO</td>
-      <td>1.2</td>
-      <td>warm</td>
-      <td>severe weather</td>
-      <td>severe weather unknown</td>
-      <td>NaN</td>
-      <td>250.0</td>
-      <td>250000.0</td>
-      <td>5489594</td>
-      <td>73.27</td>
-      <td>2015-07-18 02:00:00</td>
-      <td>2015-07-19 07:00:00</td>
-      <td>False</td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-scroll">
+    <table>
+      <thead>
+        <tr style="text-align: left;">
+          <th style="padding-right:10px;">index</th>
+          <th style="padding-right:15px;">U.S._STATE</th>
+          <th style="padding-right:15px;">NERC.REGION</th>
+          <th style="padding-right:15px;">ANOMALY.LEVEL</th>
+          <th style="padding-right:15px;">CLIMATE.CATEGORY</th>
+          <th style="padding-right:15px;">CAUSE.CATEGORY</th>
+          <th style="padding-right:15px;">CAUSE.CATEGORY.DETAIL</th>
+          <th style="padding-right:15px;">HURRICANE.NAMES</th>
+          <th style="padding-right:15px;">DEMAND.LOSS.MW</th>
+          <th style="padding-right:15px;">CUSTOMERS.AFFECTED</th>
+          <th style="padding-right:15px;">POPULATION</th>
+          <th style="padding-right:15px;">POPPCT_URBAN</th>
+          <th style="padding-right:15px;">outage_start_dt</th>
+          <th style="padding-right:15px;">outage_restoration_dt</th>
+          <th style="padding-right:15px;">is_hurricane</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>Minnesota</td>
+          <td>MRO</td>
+          <td>-0.3</td>
+          <td>normal</td>
+          <td>severe weather</td>
+          <td>severe weather unknown</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>70000.0</td>
+          <td>5348119</td>
+          <td>73.27</td>
+          <td>2011-07-01 17:00:00</td>
+          <td>2011-07-03 20:00:00</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>Minnesota</td>
+          <td>MRO</td>
+          <td>-0.1</td>
+          <td>normal</td>
+          <td>intentional attack</td>
+          <td>vandalism</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>5457125</td>
+          <td>73.27</td>
+          <td>2014-05-11 18:38:00</td>
+          <td>2014-05-11 18:39:00</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>Minnesota</td>
+          <td>MRO</td>
+          <td>-1.5</td>
+          <td>cold</td>
+          <td>severe weather</td>
+          <td>heavy wind</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>70000.0</td>
+          <td>5310903</td>
+          <td>73.27</td>
+          <td>2010-10-26 20:00:00</td>
+          <td>2010-10-28 22:00:00</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>Minnesota</td>
+          <td>MRO</td>
+          <td>-0.1</td>
+          <td>normal</td>
+          <td>severe weather</td>
+          <td>thunderstorm</td>
+          <td>NaN</td>
+          <td>NaN</td>
+          <td>68200.0</td>
+          <td>5380443</td>
+          <td>73.27</td>
+          <td>2012-06-19 04:30:00</td>
+          <td>2012-06-20 23:00:00</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>Minnesota</td>
+          <td>MRO</td>
+          <td>1.2</td>
+          <td>warm</td>
+          <td>severe weather</td>
+          <td>severe weather unknown</td>
+          <td>NaN</td>
+          <td>250.0</td>
+          <td>250000.0</td>
+          <td>5489594</td>
+          <td>73.27</td>
+          <td>2015-07-18 02:00:00</td>
+          <td>2015-07-19 07:00:00</td>
+          <td>False</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 
 
 
