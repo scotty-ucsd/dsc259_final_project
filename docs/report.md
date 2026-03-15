@@ -254,7 +254,13 @@ The distribution of outages by NERC reliability region reveals how physical grid
 
 Regions differ markedly, often reflecting population concentrations and exposure to severe weather. When we recast the counts by climate region and overlay a state‑level choropleth, a few states stand out as major contributors to their environmental zones—California in the West, Texas in the South, and so on.
 
-<iframe src="{{ site.baseurl }}/img/plots/univariate_plt4.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe
+  src="{{ site.baseurl }}/img/plots/univariate_plt4.html"
+  width="100%"
+  height="700"
+  style="border:none;"
+  scrolling="no">
+</iframe>
 
 These two visualizations set the stage for more nuanced, feature‑level questions: Do outage durations shift by climate? Does month of year matter?
 
