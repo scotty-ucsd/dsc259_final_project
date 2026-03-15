@@ -4,7 +4,7 @@ email: "rsrogers@ucsd.edu" # Keep to a single primary email to avoid breaking ma
 description: >-
   Following the data science lifecycle for major power outage risk in the U.S.
 url: "[https://scotty-ucsd.github.io](https://scotty-ucsd.github.io)"
-baseurl: "/dsc259_final_project"
+baseurl: "/power_down"
 twitter_username: ""
 github_username: "scotty-ucsd"
 
