@@ -485,7 +485,8 @@ To refine our understanding, we examined whether the missingness of `DEMAND.LOSS
 Any imputation strategy for `DEMAND.LOSS.MW` should therefore condition on outage cause but need not adjust for climate.
 
 
-<h2 id="hypothesis" style="scroll-margin-top: 60px;">Hypothesis Testing: State Effects Within a Region</h2>
+<h2 id="hypothesis" style="scroll-margin-top: 60px;">Hypothesis Testing: Does Outage Duration Vary by State Within
+the Same NERC Region?</h2>
 
 
 Our exploratory work hinted at geographic variation, but does state identity matter even when the broader grid region is fixed? If so, `U.S._STATE` is more than a proxy for NERC region and deserves explicit use in modeling.
@@ -494,8 +495,8 @@ We tested this question within the **WECC** (Western Electricity Coordinating Co
 
 ### Formulating the Test
 
-- **Null hypothesis:** Mean log‑transformed outage duration is equal across all WECC states.
-- **Alternative hypothesis:** At least one state’s mean differs.
+- **Null hypothesis:** The mean log‑transformed outage duration is the same across all states within the WECC region.
+- **Alternative hypothesis:** At least one state’s mean log-transformed outage duration differs from other states within the WECC region.
 - **Method:** One‑way ANOVA on `np.log1p(OUTAGE.DURATION)` with `U.S._STATE` as the factor. States with fewer than five WECC observations were excluded.
 
 The log transformation mitigates extreme skew and makes residuals more normal, satisfying ANOVA assumptions. The F‑statistic compares between‑state variance to within‑state variance.
