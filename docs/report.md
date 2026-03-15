@@ -4,7 +4,13 @@ title: Project Analysis Report
 permalink: /report/
 ---
 
+<h1 style="text-align:center;">Power Down: Understanding U.S. Grid Outages</h1>
 
+<p style="text-align:center; font-size: 1.1em;">
+Randall "Scotty" Rogers, Jillian O'Neel, Hans Hanson
+</p>
+
+<br>
 
 
 
@@ -238,11 +244,23 @@ After cleaning, the DataFrame contains 1,456 observations. The columns most affe
 
 The distribution of outages by NERC reliability region reveals how physical grid structure, not political boundaries, governs outage frequency.
 
-<iframe src="{{ site.baseurl }}/img/plots/univariate_plt3.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe
+  src="{{ site.baseurl }}/img/plots/univariate_plt3.html"
+  width="100%"
+  height="700"
+  style="border:none;"
+  scrolling="no">
+</iframe>
 
 Regions differ markedly, often reflecting population concentrations and exposure to severe weather. When we recast the counts by climate region and overlay a state‑level choropleth, a few states stand out as major contributors to their environmental zones—California in the West, Texas in the South, and so on.
 
-<iframe src="{{ site.baseurl }}/img/plots/univariate_plt4.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe
+  src="{{ site.baseurl }}/img/plots/univariate_plt4.html"
+  width="100%"
+  height="700"
+  style="border:none;"
+  scrolling="no">
+</iframe>
 
 These two visualizations set the stage for more nuanced, feature‑level questions: Do outage durations shift by climate? Does month of year matter?
 
@@ -467,7 +485,8 @@ To refine our understanding, we examined whether the missingness of `DEMAND.LOSS
 Any imputation strategy for `DEMAND.LOSS.MW` should therefore condition on outage cause but need not adjust for climate.
 
 
-<h2 id="hypothesis" style="scroll-margin-top: 60px;">Hypothesis Testing: State Effects Within a Region</h2>
+<h2 id="hypothesis" style="scroll-margin-top: 60px;">Hypothesis Testing: Does Outage Duration Vary by State Within
+the Same NERC Region?</h2>
 
 
 Our exploratory work hinted at geographic variation, but does state identity matter even when the broader grid region is fixed? If so, `U.S._STATE` is more than a proxy for NERC region and deserves explicit use in modeling.
@@ -476,8 +495,8 @@ We tested this question within the **WECC** (Western Electricity Coordinating Co
 
 ### Formulating the Test
 
-- **Null hypothesis:** Mean log‑transformed outage duration is equal across all WECC states.
-- **Alternative hypothesis:** At least one state’s mean differs.
+- **Null hypothesis:** The mean log‑transformed outage duration is the same across all states within the WECC region.
+- **Alternative hypothesis:** At least one state’s mean log-transformed outage duration differs from other states within the WECC region.
 - **Method:** One‑way ANOVA on `np.log1p(OUTAGE.DURATION)` with `U.S._STATE` as the factor. States with fewer than five WECC observations were excluded.
 
 The log transformation mitigates extreme skew and makes residuals more normal, satisfying ANOVA assumptions. The F‑statistic compares between‑state variance to within‑state variance.
@@ -530,9 +549,12 @@ California experiences notably long outages, reflecting wildfire‑related pre�
 <h2 id="prediction" style="scroll-margin-top: 60px;">Framing a Prediction Problem</h2>
 
 
-With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict `CUSTOMERS.AFFECTED`?
+The goal of this prediction task is to estimate outage severity using information available at
+or shortly after the start of an outage.
 
-**Response variable:** the number of customers who lost power (i.e. the values in column `CUSTOMERS.AFFECTED`). Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
+**Problem Type:** Regression
+
+**Response variable:** the number of customers who lost power (i.e. the values in column `CUSTOMERS.AFFECTED`). This is the most direct measure of outage severity from a public-safety perspective. Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
 
 ### Candidate Features
 
