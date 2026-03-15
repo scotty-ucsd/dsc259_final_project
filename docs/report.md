@@ -549,9 +549,12 @@ California experiences notably long outages, reflecting wildfire‑related pre�
 <h2 id="prediction" style="scroll-margin-top: 60px;">Framing a Prediction Problem</h2>
 
 
-With state‑level effects established, we now pose a regression problem: using only information available at outage onset, how well can we predict `CUSTOMERS.AFFECTED`?
+The goal of this prediction task is to estimate outage severity using information available at
+or shortly after the start of an outage.
 
-**Response variable:** the number of customers who lost power (i.e. the values in column `CUSTOMERS.AFFECTED`). Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
+**Problem Type:** Regression
+
+**Response variable:** the number of customers who lost power (i.e. the values in column `CUSTOMERS.AFFECTED`). This is the most direct measure of outage severity from a public-safety perspective. Accurate early estimates of this quantity can shape operational decisions by utilities and emergency managers.
 
 ### Candidate Features
 
