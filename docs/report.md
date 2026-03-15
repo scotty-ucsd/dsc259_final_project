@@ -4,7 +4,13 @@ title: Project Analysis Report
 permalink: /report/
 ---
 
+<h1 style="text-align:center;">Power Down: Understanding U.S. Grid Outages</h1>
 
+<p style="text-align:center; font-size: 1.1em;">
+Randall "Scotty" Rogers, Jillian O'Neel, Hans Hanson
+</p>
+
+<br>
 
 
 
