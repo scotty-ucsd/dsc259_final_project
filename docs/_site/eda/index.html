@@ -9,16 +9,16 @@
 
     <title>DSC259 Final Project: Power Outages</title>
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/bootstrap.min.css" type="text/css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     
-    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/font-awesome/css/font-awesome.min.css" type="text/css">
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/animate.min.css" type="text/css">
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/main.css" type="text/css">
     
     <script>
       MathJax = {
@@ -42,18 +42,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/dsc259_final_project/" title="View Source on GitHub">
+            <a class="navbar-brand" href="/power_down/" title="View Source on GitHub">
                 <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a class="page-scroll" href="/dsc259_final_project/index.html#about">Access Data</a></li>
-                <li><a class="page-scroll" href="/dsc259_final_project/index.html#services">Project Roadmap</a></li>
-                <li><a class="page-scroll" href="/dsc259_final_project/index.html#portfolio">Deliverables</a></li>
-                <li><a class="page-scroll" href="/dsc259_final_project/report/">Full Report</a></li>
-                <li><a class="page-scroll" href="/dsc259_final_project/index.html#contact">Team</a></li>
+                <li><a class="page-scroll" href="/power_down/index.html#about">Access Data</a></li>
+                <li><a class="page-scroll" href="/power_down/index.html#services">Project Roadmap</a></li>
+                <li><a class="page-scroll" href="/power_down/index.html#portfolio">Deliverables</a></li>
+                <li><a class="page-scroll" href="/power_down/report/">Full Report</a></li>
+                <li><a class="page-scroll" href="/power_down/index.html#contact">Team</a></li>
             </ul>
         </div>
     </div>
@@ -71,7 +71,7 @@
 
                 <div class="text-left" style="margin-top: 30px;">
                     <h2 id="background">Background</h2>
-<p>As we embark on the data science life cycle, we must conduct a comprehensive inspection beyond the sneak peek that revealed major formatting issues in <a href="/dsc259_final_project/introduction/">Step 1: Introduction</a>. During this phase, we polish the raw data into a usable format. Our cleaning process entails the following:</p>
+<p>As we embark on the data science life cycle, we must conduct a comprehensive inspection beyond the sneak peek that revealed major formatting issues in <a href="/power_down/introduction/">Step 1: Introduction</a>. During this phase, we polish the raw data into a usable format. Our cleaning process entails the following:</p>
 <ul>
   <li><strong>Duplicate Analysis:</strong> Checking for and removing duplicate observations.</li>
   <li><strong>Null Element Inspection:</strong> Analyzing the frequency and distribution of <code class="language-plaintext highlighter-rouge">NaN</code> or <code class="language-plaintext highlighter-rouge">Null</code> values.</li>
@@ -315,7 +315,7 @@ Units,,,,,,,,numeric...
 </ul>
 
 <h3 id="null-inspection">Null Inspection</h3>
-<p>The summary below captures the non-null counts and data types for our all columns containing any null values. Notable gaps will be addressed in <a href="/dsc259_final_project/missingness/">Step 3: Missingness</a></p>
+<p>The summary below captures the non-null counts and data types for our all columns containing any null values. Notable gaps will be addressed in <a href="/power_down/missingness/">Step 3: Missingness</a></p>
 
 <div class="table-responsive">
     <table class="table table-hover">
@@ -537,8 +537,8 @@ Units,,,,,,,,numeric...
 <p>We examined the distribution of outage durations and their primary drivers. The <strong>Outage Duration</strong> histogram reveals a significant right-skew; while most outages are short-lived, the “long tail” represents extreme events that last thousands of minutes. Simultaneously, the <strong>Cause Category</strong> bar chart highlights “Severe Weather” and “Intentional Attack” as the most frequent triggers for outages in this dataset.</p>
 
 <div class="plotly-container" style="margin: 30px 0;">
-    <iframe src="/dsc259_final_project/img/plots/outage_duration.html" width="100%" height="500px" frameborder="0"></iframe>
-    <iframe src="/dsc259_final_project/img/plots/cause_category.html" width="100%" height="500px" frameborder="0"></iframe>
+    <iframe src="/power_down/img/plots/outage_duration.html" width="100%" height="500px" frameborder="0"></iframe>
+    <iframe src="/power_down/img/plots/cause_category.html" width="100%" height="500px" frameborder="0"></iframe>
     <p class="text-muted text-center">
         <em>Figures 2 &amp; 3: Most outages are caused by severe weather or intentional attacks...</em>
     </p>
@@ -548,7 +548,7 @@ Units,,,,,,,,numeric...
 <p>The effect season plays on outages, we looked at the relationship between the month an outage began and its duration.</p>
 
 <div class="plotly-container" style="margin: 30px 0;">
-    <iframe src="/dsc259_final_project/img/plots/duration_month.html" width="100%" height="500px" frameborder="0"></iframe>
+    <iframe src="/power_down/img/plots/duration_month.html" width="100%" height="500px" frameborder="0"></iframe>
     <p class="text-muted text-center">
         <em>Figure 4: Outage durations across months. The log scale reveals extreme restoration times.</em>
     </p>
@@ -644,14 +644,14 @@ Units,,,,,,,,numeric...
                     <hr class="primary">
                     <ul class="list-inline">
                         
-                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/introduction/">Back to Step 1</a></li>
+                            <li><a class="btn btn-default btn-xl" href="/power_down/introduction/">Back to Step 1</a></li>
                         
 
-                        <li><a class="btn btn-primary btn-xl" href="/dsc259_final_project/index.html#services">Return to Roadmap</a></li>
+                        <li><a class="btn btn-primary btn-xl" href="/power_down/index.html#services">Return to Roadmap</a></li>
 
                         
                         
-                            <li><a class="btn btn-default btn-xl" href="/dsc259_final_project/missingness/">To Step 3</a></li>
+                            <li><a class="btn btn-default btn-xl" href="/power_down/missingness/">To Step 3</a></li>
                         
                     </ul>
                 </div>

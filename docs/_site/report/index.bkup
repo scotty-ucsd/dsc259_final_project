@@ -9,16 +9,16 @@
 
     <title>DSC259 Final Project: Power Outages</title>
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/bootstrap.min.css" type="text/css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     
-    <link rel="stylesheet" href="/dsc259_final_project/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/font-awesome/css/font-awesome.min.css" type="text/css">
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/animate.min.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/animate.min.css" type="text/css">
 
-    <link rel="stylesheet" href="/dsc259_final_project/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/power_down/css/main.css" type="text/css">
     
     <script>
       MathJax = {
@@ -36,7 +36,7 @@
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top affix">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href='/dsc259_final_project/report/' title="Return to Top">
+            <a class="navbar-brand" href='/power_down/report/' title="Return to Top">
                 <i class="fa fa-github fa-2x" style="margin-top: -5px; color: #222;"></i>
             </a>
         </div>
@@ -142,13 +142,13 @@ After cleaning, the dataset retains 1,456 rows and is free of structural issues.
 
 The first plot below maps outage counts across NERC reliability regions. Rather than following state lines, these regions reflect how the physical grid is organized and operated.
 
-<iframe src="/dsc259_final_project/img/plots/univariate_plt3.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/univariate_plt3.html" width="100%" height="450" frameborder="0"></iframe>
 
 Outage counts vary substantially across NERC regions. Some regions appear far more frequently in the dataset than others, reflecting both population density and grid exposure to weather-driven events.
 
 The second plot shifts focus to climate regions, combining bar charts with a choropleth map to show which states drive outage totals within each environmental zone.
 
-<iframe src="/dsc259_final_project/img/plots/univariate_plt4.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/univariate_plt4.html" width="100%" height="450" frameborder="0"></iframe>
 
 The Northeast and South climate regions contain the largest share of outage events. Within several regions, a small number of states account for a disproportionate share of recorded outages, such as California in the West and Texas in the South.
 
@@ -159,13 +159,13 @@ The Northeast and South climate regions contain the largest share of outage even
 
 The first bivariate plot examines the relationship between climate zone and outage duration using a log-scale box plot. The log transform (log(minutes + 1)) is necessary because outage durations span from near-zero events to multi-day disruptions, and without it the largest outliers would compress all other variation into an unreadable band.
 
-<iframe src="/dsc259_final_project/img/plots/bivariate_plt5.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/bivariate_plt5.html" width="100%" height="450" frameborder="0"></iframe>
 
 Median outage duration is fairly consistent across most climate regions, suggesting that typical restoration times do not differ dramatically by environment. However, the Northeast and South show heavier upper tails, with more extreme long-duration outliers than other regions.
 
 The second bivariate plot groups outage duration by month to look for seasonal patterns.
 
-<iframe src="/dsc259_final_project/img/plots/bivariate_plt6.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/bivariate_plt6.html" width="100%" height="450" frameborder="0"></iframe>
 
 Seasonal variation appears more in the spread and frequency of extreme outliers than in shifts to the median. Typical outage durations remain in a fairly narrow range across all twelve months, suggesting that while severe seasonal events can produce exceptionally long outages, they do not dramatically change how long a routine outage lasts.
 <div id="missingness"></div>
@@ -203,9 +203,9 @@ We test whether the missingness of `DEMAND.LOSS.MW` depends on two observed cate
 
 **Alternative hypothesis:** The distribution of `CAUSE.CATEGORY` differs between missing and present rows.
 
-<iframe src="/dsc259_final_project/img/plots/step3.1_missingness_cause_category.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step3.1_missingness_cause_category.html" width="100%" height="450" frameborder="0"></iframe>
 
-<iframe src="/dsc259_final_project/img/plots/step3.2_tvd_permutation_cause.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step3.2_tvd_permutation_cause.html" width="100%" height="450" frameborder="0"></iframe>
 
 With an observed TVD of 0.1844 and a p-value of 0.000, we **reject the null hypothesis** at alpha = 0.05. The missingness of `DEMAND.LOSS.MW` depends on outage cause. Intentional attacks are overrepresented among missing rows (approximately 34%) compared to present rows (approximately 22%), while system operability events are overrepresented among present rows. This makes sense: intentional attacks are typically low-scale, localized disruptions that may not trigger formal MW loss reporting.
 
@@ -217,9 +217,9 @@ With an observed TVD of 0.1844 and a p-value of 0.000, we **reject the null hypo
 
 **Alternative hypothesis:** The distribution of `CLIMATE.CATEGORY` differs between missing and present rows.
 
-<iframe src="/dsc259_final_project/img/plots/step3.3_missingness_climate_category.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step3.3_missingness_climate_category.html" width="100%" height="450" frameborder="0"></iframe>
 
-<iframe src="/dsc259_final_project/img/plots/step3.4_tvd_permutation_climate.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step3.4_tvd_permutation_climate.html" width="100%" height="450" frameborder="0"></iframe>
 
 With an observed TVD of 0.0371 and a p-value of 0.285, we **fail to reject the null hypothesis** at alpha = 0.05. The missingness of `DEMAND.LOSS.MW` does not depend on climate category. While climate conditions influence whether and how severe outages become, they do not determine whether a utility can report megawatt losses.
 
@@ -275,7 +275,7 @@ A large F relative to the null distribution indicates that state membership expl
 
 ### Results
 
-<iframe src="/dsc259_final_project/img/plots/step4.1_duration_by_state_wecc.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step4.1_duration_by_state_wecc.html" width="100%" height="450" frameborder="0"></iframe>
 
 | Source | Sum of Squares | df | F | p-value |
 | :--- | ---: | ---: | ---: | ---: |
@@ -362,9 +362,9 @@ Our baseline is a Ridge regression model (linear regression with L2 regularizati
 
 ### Performance
 
-<iframe src="/dsc259_final_project/img/plots/step6.1_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step6.1_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
 
-<iframe src="/dsc259_final_project/img/plots/step6.2_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step6.2_baseline_residuals.html" width="100%" height="450" frameborder="0"></iframe>
 
 | Metric | Value |
 | :--- | ---: |
@@ -434,11 +434,11 @@ Best cross-validated RMSE on the training set: 290,297 customers.
 
 The Predicted vs. Actual plot below shows each test set outage as a point, with a dashed 45-degree reference line indicating perfect prediction. Compared to the baseline, points cluster closer to the diagonal for medium-sized outages, reflecting reduced systematic under- and over-prediction.
 
-<iframe src="/dsc259_final_project/img/plots/step7.1_final_pred_vs_actual.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step7.1_final_pred_vs_actual.html" width="100%" height="450" frameborder="0"></iframe>
 
 The Residual vs. Predicted plot graphs (Actual - Predicted) against the predicted value. The final model shows a tighter, more symmetric band of residuals around zero than the Ridge baseline, indicating better calibration across the range of predicted outage sizes.
 
-<iframe src="/dsc259_final_project/img/plots/step7.2_final_residuals.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step7.2_final_residuals.html" width="100%" height="450" frameborder="0"></iframe>
 
 ---
 
@@ -491,7 +491,7 @@ Shuffling labels rather than re-fitting the model keeps the trained model and it
 
 ### Results
 
-<iframe src="/dsc259_final_project/img/plots/step8.1_permutation_rmse_diff.html" width="100%" height="450" frameborder="0"></iframe>
+<iframe src="/power_down/img/plots/step8.1_permutation_rmse_diff.html" width="100%" height="450" frameborder="0"></iframe>
 
 | Group | RMSE |
 | :--- | ---: |
@@ -524,7 +524,7 @@ We hope this analysis serves as a useful starting point for thinking about how d
                 </div>
                 <div style="margin-top: 80px; padding-bottom: 50px; text-align: center;">
                     <hr class="primary">
-                    <a class="btn btn-primary btn-xl" href='/dsc259_final_project/report/'>Return to Top</a>
+                    <a class="btn btn-primary btn-xl" href='/power_down/report/'>Return to Top</a>
                 </div>
             </div>
 
